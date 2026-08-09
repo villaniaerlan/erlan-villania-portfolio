@@ -19,12 +19,12 @@ export default function Hero() {
           {useSolidBanner ? (
             <>
               <Layout className="w-3.5 h-3.5 text-crimson" />
-              <span>SWITCH TO INTERACTIVE TEXT LAYOUT</span>
+              <span>A SHORT VIDEO INTRODUCTION ABOUT ME</span>
             </>
           ) : (
             <>
               <ImageIcon className="w-3.5 h-3.5 text-crimson" />
-              <span>USE YOUR CUSTOM BANNER IMAGE</span>
+              <span>GET TO KNOW ME</span>
             </>
           )}
         </button>
@@ -99,7 +99,7 @@ export default function Hero() {
         <>
           {/* Giant Background PORTFOLIO Typography */}
           <div className="absolute top-16 left-0 right-0 w-full flex justify-center pointer-events-none select-none overflow-hidden z-0">
-            <h1 className="font-display font-extrabold text-[28vw] sm:text-[18vw] leading-none tracking-tighter text-[#1C0406] uppercase opacity-75 whitespace-nowrap">
+            <h1 className="font-display font-extrabold text-[30vw] sm:text-[18vw] leading-none tracking-tighter text-[#1C0406] uppercase opacity-75 whitespace-nowrap">
               PORTFOLIO
             </h1>
           </div>
