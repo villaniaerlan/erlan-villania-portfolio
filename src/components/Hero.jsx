@@ -99,7 +99,7 @@ export default function Hero() {
         <>
           {/* Giant Background PORTFOLIO Typography */}
           <div className="absolute top-16 left-0 right-0 w-full flex justify-center pointer-events-none select-none overflow-hidden z-0">
-            <h1 className="font-display font-extrabold text-[20vw] sm:text-[18vw] leading-none tracking-tighter text-[#1C0406] uppercase opacity-75 whitespace-nowrap">
+            <h1 className="font-display font-extrabold text-[28vw] sm:text-[18vw] leading-none tracking-tighter text-[#1C0406] uppercase opacity-75 whitespace-nowrap">
               PORTFOLIO
             </h1>
           </div>
