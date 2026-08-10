@@ -3,25 +3,46 @@ export const profileData = {
   scriptGreeting: "Hello, I'm",
   subtitle: "GRAPHIC DESIGNER / MULTIMEDIA ARTIST",
   location: "PHILIPPINES",
+
   behanceUrl: "https://www.behance.net/erlanvillania",
   email: "villaniaerlan@gmail.com",
   phone: "09482429477",
   city: "Makati",
+
   avatar: "/erlan_avatar.png",
-  
-  // Set useSolidBanner to false to display your transparent portrait cutout floating over the hero!
+
+  // Hero settings
   useSolidBanner: false,
   heroBannerImage: "/hero_banner.png",
 
-  tagline: "Creative Graphic Designer & Multimedia Artist with 4+ years of experience, crafting impactful designs, digital content, and visual experiences that help brands stand out.",
-  floatingBadge: "Turning ideas into powerful digital experiences.",
-  quote: "Good design is not just how it looks, but how it works.",
+  tagline:
+    "Creative Graphic Designer & Multimedia Artist with 4+ years of experience, crafting impactful designs, digital content, and visual experiences that help brands stand out.",
+
+  floatingBadge:
+    "Turning ideas into powerful digital experiences.",
+
+  quote:
+    "Good design is not just how it looks, but how it works.",
+
   signature: "Erlan",
+
+  // Statistics
   stats: [
-    { value: "4+", label: "YEARS EXPERIENCE" },
-    { value: "40+", label: "PROJECTS COMPLETED" },
-    { value: "20+", label: "HAPPY CLIENTS" }
+    {
+      value: "4+",
+      label: "YEARS EXPERIENCE"
+    },
+    {
+      value: "40+",
+      label: "PROJECTS COMPLETED"
+    },
+    {
+      value: "20+",
+      label: "HAPPY CLIENTS"
+    }
   ],
+
+  // Education
   education: [
     {
       degree: "B.Sc. in Visual Communication Design",
@@ -34,11 +55,27 @@ export const profileData = {
       years: "2023"
     }
   ],
+
+  // Skills
   skills: [
-    "WEB DESIGN", "UI/UX DESIGN", "FIGMA", "FRAMER", 
-    "ADOBE XD", "PHOTOSHOP", "WEBFLOW", "HTML / CSS", 
-    "JAVASCRIPT", "GSAP ANIMATION", "SEO BASICS"
+    "GRAPHIC DESIGN",
+    "ADOBE PHOTOSHOP",
+    "ADOBE ILLUSTRATOR",
+    "FIGMA",
+    "CANVA",
+    "SOCIAL MEDIA DESIGN",
+    "BRANDING",
+    "DIGITAL MARKETING",
+    "WEB DESIGN",
+    "VIDEO EDITING",
+    "CAPCUT",
+    "ADOBE PREMIERE PRO",
+    "PRINT DESIGN",
+    "AI TOOLS",
+    "CONTENT CREATION"
   ],
+
+  // Design process
   processSteps: [
     {
       number: "01",
@@ -71,33 +108,154 @@ export const profileData = {
       icon: "Send"
     }
   ],
+
+  // =========================================================
+  // SELECTED PROJECTS
+  // =========================================================
+  //
+  // IMPORTANT:
+  // To add more images to a project, simply add them inside
+  // the "images" array.
+  //
+  // Example:
+  //
+  // images: [
+  //   "/projects/casino-design/image1.png",
+  //   "/projects/casino-design/image2.png",
+  //   "/projects/casino-design/image3.png"
+  // ]
+  //
+  // =========================================================
+
   selectedProjects: [
     {
-      id: "veloce-bikes",
+      id: "casino-design",
       number: "01",
+
       title: "CASINO GRAPHIC DESIGN",
       category: "E-COMMERCE WEBSITE",
-      coverImage: "/uiux_dashboard.jpg",
+      categoryLabel: "CASINO GRAPHIC DESIGN",
+
+      // Main thumbnail shown in Selected Projects
+      coverImage: "/projects/casino-design/Gods of Olympus 01.png",
+
+      // ALL images displayed when opening the project
+      images: [
+        "/projects/casino-design/Gods of Olympus 01.png",
+        "/projects/casino-design/Gods of Olympus 02.png",
+        "/projects/casino-design/Gods of Olympus 03.png"
+      ],
+
+      client: "Digital Marketing",
+      publishedDate: "2026",
+      views: "857",
+      appreciations: 20,
+
       behanceLink: "https://www.behance.net/erlanvillania",
-      summary: "High-performance cycling e-commerce interface designed with dark mode aesthetic and interactive 3D product view."
+
+      summary:
+        "Casino graphic design assets created for digital platforms, promotional campaigns, and online gaming content.",
+
+      description:
+        "A collection of casino-focused graphic designs created for digital marketing and online gaming platforms. The project focuses on bold visual compositions, strong typography, vibrant colors, promotional messaging, and engaging character-based artwork.",
+
+      tools: [
+        "Adobe Photoshop",
+        "Adobe Illustrator",
+        "Canva",
+        "AI Tools",
+        "Graphic Design"
+      ]
     },
+
+    // =========================================================
+    // PROJECT 02
+    // =========================================================
+
     {
-      id: "woodcraft-furniture",
+      id: "social-media",
       number: "02",
+
       title: "SOCIAL MEDIA POSTING",
       category: "FOR FB, IG AND YOUTUBE",
-      coverImage: "/brand_identity.jpg",
+      categoryLabel: "SOCIAL MEDIA POSTING",
+
+      // Main thumbnail
+      coverImage: "/projects/social-media/128x128 01.png",
+
+      // ALL images for this project
+      images: [
+        "/projects/social-media/128x128 01.png",
+        "/projects/social-media/128x128 02.png",
+        "/projects/social-media/128x128 03.png"
+      ],
+
+      client: "Digital Marketing",
+      publishedDate: "2026",
+      views: "1.2K",
+      appreciations: 25,
+
       behanceLink: "https://www.behance.net/erlanvillania",
-      summary: "Timeless crafted furniture web showcase featuring minimalist editorial typography and smooth animations."
+
+      summary:
+        "Social media creatives designed for Facebook, Instagram, YouTube, and other digital platforms.",
+
+      description:
+        "A collection of social media creatives designed for Facebook, Instagram, YouTube, and other digital platforms. The designs focus on strong visual hierarchy, promotional messaging, branding, and attention-grabbing compositions.",
+
+      tools: [
+        "Adobe Photoshop",
+        "Adobe Illustrator",
+        "Canva",
+        "CapCut",
+        "AI Tools",
+        "Social Media Design"
+      ]
     },
+
+    // =========================================================
+    // PROJECT 03
+    // =========================================================
+
     {
-      id: "urbanic-fashion",
+      id: "poster-design",
       number: "03",
+
       title: "POSTER DESIGN",
       category: "POSTER BANNER",
-      coverImage: "/graphic_poster.jpg",
+      categoryLabel: "POSTER DESIGN",
+
+      // Main thumbnail
+      coverImage: "/projects/poster-design/icon.png",
+
+      // ALL images for this project
+      images: [
+        "/projects/poster-design/chesscatter crown 01.png",
+        "/projects/poster-design/chesscatter crown 02.png",
+        "/projects/poster-design/chesscatter crown 03.png"
+      ],
+
+      client: "Digital Marketing",
+      publishedDate: "2026",
+      views: "963",
+      appreciations: 18,
+
       behanceLink: "https://www.behance.net/erlanvillania",
-      summary: "Bold high-fashion digital magazine layout showcasing modern streetwear trends and interactive editorial spreads."
+
+      summary:
+        "Promotional poster and banner designs created for digital campaigns and branded content.",
+
+      description:
+        "A collection of promotional poster and banner designs created for digital campaigns. The project combines bold typography, character artwork, vibrant compositions, and strong visual hierarchy to create attention-grabbing promotional graphics.",
+
+      tools: [
+        "Adobe Photoshop",
+        "Adobe Illustrator",
+        "Canva",
+        "AI Tools",
+        "Poster Design",
+        "Graphic Design"
+      ]
     }
   ]
 };
