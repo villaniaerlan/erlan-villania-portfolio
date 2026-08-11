@@ -137,13 +137,14 @@ export const profileData = {
       categoryLabel: "CASINO GRAPHIC DESIGN",
 
       // Main thumbnail shown in Selected Projects
-      coverImage: "/projects/casino-design/Gods of Olympus 01.png",
+      coverImage: "/projects/casino-design/Gods of Olympus Icon.png",
 
       // ALL images displayed when opening the project
       images: [
         "/projects/casino-design/Gods of Olympus 01.png",
         "/projects/casino-design/Gods of Olympus 02.png",
-        "/projects/casino-design/Gods of Olympus 03.png"
+        "/projects/casino-design/Gods of Olympus 03.png",
+        "/projects/casino-design/Gods of Olympus 04.png"
       ],
 
       client: "Digital Marketing",
