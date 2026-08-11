@@ -1,4 +1,9 @@
-@tailwind base;
+@font-face {
+  font-family: "Sigana";
+  src: url("/fonts/Sigana%20Condensed.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}@tailwind base;
 @tailwind components;
 @tailwind utilities;
 

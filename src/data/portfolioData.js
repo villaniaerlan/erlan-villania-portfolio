@@ -45,13 +45,13 @@ export const profileData = {
   // Education
   education: [
     {
-      degree: "B.Sc. in Visual Communication Design",
-      school: "Polytechnic University / Manila College",
-      years: "2018 - 2022"
+      degree: "Bachelor of Science in Computer Science",
+      school: "Mabini Colleges Inc.",
+      years: "2022"
     },
     {
-      degree: "UI/UX Design Certification",
-      school: "Google Career Certificates / Behance Pro",
+      degree: "Digital Marketing & Graphic Design",
+      school: "DICT Region V",
       years: "2023"
     }
   ],
@@ -144,7 +144,8 @@ export const profileData = {
         "/projects/casino-design/Gods of Olympus 01.png",
         "/projects/casino-design/Gods of Olympus 02.png",
         "/projects/casino-design/Gods of Olympus 03.png",
-        "/projects/casino-design/Gods of Olympus 04.png"
+        "/projects/casino-design/Gods of Olympus 04.png",
+        "/projects/casino-design/Gods of Olympus 05.png"
       ],
 
       client: "Digital Marketing",
