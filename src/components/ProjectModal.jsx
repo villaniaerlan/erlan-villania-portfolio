@@ -105,7 +105,7 @@ export default function ProjectModal({ project, onClose, darkMode }) {
               NO SPACE BETWEEN IMAGES
               ===================================================== */}
 
-          <div className="space-y-0">
+          <div className="space-y-0 -mx-5 sm:mx-0">
 
             {projectImages.map((image, index) => (
 
