@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Globe, ArrowRight, ExternalLink, Mail, Image as ImageIcon, Layout } from 'lucide-react';
+import { Globe, ArrowRight, ExternalLink, Mail, Image as ImageIcon, Layout, Play } from 'lucide-react';
 import { profileData } from '../data/portfolioData';
 
 export default function Hero() {
@@ -18,7 +18,7 @@ export default function Hero() {
         >
           {useSolidBanner ? (
             <>
-              <Layout className="w-3.5 h-3.5 text-crimson" />
+              <Play className="w-3.5 h-3.5 text-crimson" />
               <span>A SHORT VIDEO INTRODUCTION ABOUT ME</span>
             </>
           ) : (
@@ -73,7 +73,7 @@ export default function Hero() {
               <span className="text-slate-600">|</span>
 
               <span className="text-xs font-bold text-crimson tracking-widest uppercase">
-                AVAILABLE FOR FREELANCE
+                WEB DESIGNER / DIGITAL CREATOR
               </span>
             </div>
 
