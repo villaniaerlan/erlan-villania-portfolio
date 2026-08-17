@@ -156,17 +156,17 @@ export default function ContactFooter() {
 
         {/* Copyright Footer Line */}
         <div className="pt-8 border-t border-[#181818] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-extrabold tracking-widest text-slate-500 uppercase">
-          <div>
-            © {new Date().getFullYear()} ERLAN VILLANIA — ALL RIGHTS RESERVED
-          </div>
-          <div className="flex items-center gap-4">
-            <a href={profileData.behanceUrl} target="_blank" rel="noopener noreferrer" className="hover:text-crimson transition-colors">BEHANCE</a>
-            <span>•</span>
-            <a href="#work" className="hover:text-crimson transition-colors">WORK</a>
-            <span>•</span>
-            <a href="#about" className="hover:text-crimson transition-colors">ABOUT</a>
-          </div>
-        </div>
+          <div className="text-center sm:text-left">
+  © {new Date().getFullYear()} ERLAN VILLANIA — ALL RIGHTS RESERVED
+</div>
+<div className="flex items-center gap-4">
+  <a href={profileData.behanceUrl} target="_blank" rel="noopener noreferrer" className="hover:text-crimson transition-colors">BEHANCE</a>
+  <span>•</span>
+  <a href="#work" className="hover:text-crimson transition-colors">WORK</a>
+  <span>•</span>
+  <a href="#about" className="hover:text-crimson transition-colors">ABOUT</a>
+</div>
+</div>
 
       </div>
     </footer>

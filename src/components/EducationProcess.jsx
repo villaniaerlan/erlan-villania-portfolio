@@ -435,6 +435,7 @@ export default function EducationProcess() {
                             w-full
                             h-full
                             object-contain
+                            rounded-2xl
                             tool-icon
                           "
                           loading="lazy"

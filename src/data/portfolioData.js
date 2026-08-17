@@ -145,7 +145,13 @@ export const profileData = {
         "/projects/casino-design/Gods of Olympus 02.png",
         "/projects/casino-design/Gods of Olympus 03.png",
         "/projects/casino-design/Gods of Olympus 04.png",
-        "/projects/casino-design/Gods of Olympus 05.png"
+        "/projects/casino-design/Gods of Olympus 05.png",
+        "/projects/casino-design/Gods of Olympus 06.png",
+        "/projects/casino-design/Gods of Olympus 07.png",
+        "/projects/casino-design/Gods of Olympus 08.png",
+        "/projects/casino-design/Gods of Olympus 09.png",
+        "/projects/casino-design/Gods of Olympus 10.png",
+        "/projects/casino-design/Gods of Olympus 11.png"
       ],
 
       client: "Digital Marketing",
@@ -183,7 +189,7 @@ export const profileData = {
       categoryLabel: "SOCIAL MEDIA POSTING",
 
       // Main thumbnail
-      coverImage: "/projects/social-media/128x128 01.png",
+      coverImage: "/projects/social-media/128x128.png",
 
       // ALL images for this project
       images: [
@@ -228,7 +234,7 @@ export const profileData = {
       categoryLabel: "POSTER DESIGN",
 
       // Main thumbnail
-      coverImage: "/projects/poster-design/icon.png",
+      coverImage: "/projects/poster-design/chesscatter crown.png",
 
       // ALL images for this project
       images: [
