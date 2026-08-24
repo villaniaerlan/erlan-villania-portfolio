@@ -222,48 +222,96 @@ export const profileData = {
     },
 
     // =========================================================
-    // PROJECT 03
+// PROJECT 03
+// =========================================================
+
+{
+  id: "gx-in-japan",
+  number: "03",
+
+  title: "GX IN JAPAN EVENT",
+  category: "EVENT PROMOTIONAL DESIGN",
+  categoryLabel: "GX IN JAPAN EVENT",
+
+  // Main thumbnail
+  coverImage: "/projects/gx-in-japan/gx japan.png",
+
+  // ALL images for this project
+  images: [
+    "/projects/gx-in-japan/gx japan 01.jpg",
+    "/projects/gx-in-japan/gx japan 02.jpg",
+    "/projects/gx-in-japan/gx japan 03.jpg",
+    "/projects/gx-in-japan/gx japan 04.jpg",
+    "/projects/gx-in-japan/gx japan 05.jpg"
+  ],
+
+  client: "IMG EVENTS",
+  publishedDate: "2026",
+  views: "1,238",
+  appreciations: 504,
+
+  behanceLink: "https://www.behance.net/erlanvillania",
+
+  summary:
+    "Event promotional graphics created for the GX IN JAPAN event, featuring engaging visuals and branded promotional materials.",
+
+  description:
+    "A collection of promotional graphics created for the GX IN JAPAN event. The project focuses on event branding, engaging visual compositions, promotional messaging, and creative layouts designed to capture attention and communicate the event's identity.",
+
+  tools: [
+    "Adobe Photoshop",
+    "Adobe Illustrator",
+    "Event Design",
+    "Printed Materials",
+    "Graphic Design"
+  ]
+},
+
+    // =========================================================
+    // PROJECT 04
     // =========================================================
 
     {
-      id: "poster-design",
-      number: "03",
+      id: "calendar-design",
+      number: "04",
 
-      title: "POSTER DESIGN",
-      category: "POSTER BANNER",
-      categoryLabel: "POSTER DESIGN",
+      title: "CALENDAR & BRAND COLLATERAL",
+      category: "KAISER INTERNATIONAL AND MANILA BANKERS ASSURANCE",
+      categoryLabel: "CALENDAR & BRAND COLLATERAL",
 
-      // Main thumbnail
-      coverImage: "/projects/poster-design/chesscatter crown.png",
+      coverImage: "/projects/calendar-design/calendar.png.jpg",
 
-      // ALL images for this project
       images: [
-        "/projects/poster-design/chesscatter crown 01.png",
-        "/projects/poster-design/chesscatter crown 02.png",
-        "/projects/poster-design/chesscatter crown 03.png"
+        "/projects/calendar-design/calendar design 1.png",
+        "/projects/calendar-design/calendar design 2.png",
+        "/projects/calendar-design/calendar design 3.png",
+        "/projects/calendar-design/calendar design 4.png",
+        "/projects/calendar-design/calendar design 5.png",
+        "/projects/calendar-design/calendar design 6.png",
+        "/projects/calendar-design/calendar design 7.png",
+        "/projects/calendar-design/calendar design 8.png"
       ],
 
-      client: "Digital Marketing",
-      publishedDate: "2026",
-      views: "963",
-      appreciations: 18,
+      client: "Kaiser International and Manila Bankers Assurance",
+      publishedDate: "2024",
+      views: "679",
+      appreciations: 0,
 
       behanceLink: "https://www.behance.net/erlanvillania",
 
       summary:
-        "Promotional poster and banner designs created for digital campaigns and branded content.",
+        "Branded calendar and promotional materials designed for Kaiser International.",
 
       description:
-        "A collection of promotional poster and banner designs created for digital campaigns. The project combines bold typography, character artwork, vibrant compositions, and strong visual hierarchy to create attention-grabbing promotional graphics.",
+        "A branded calendar design project created for Kaiser International and Manila Bankers Assurance, featuring promotional layouts, annual calendar materials, membership visuals, and branded marketing collateral.",
 
       tools: [
         "Adobe Photoshop",
         "Adobe Illustrator",
-        "Canva",
-        "AI Tools",
-        "Poster Design",
-        "Graphic Design"
+        "Graphic Design",
+        "Print Design",
+        "Branding"
       ]
     }
   ]
-};
+}
