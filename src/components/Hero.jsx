@@ -201,7 +201,7 @@ export default function Hero() {
                 <div className="relative w-full max-w-md">
 
                   {/* Crimson Ambient Glow Behind Character */}
-                  <div className="absolute inset-0 bg-crimson/25 rounded-full blur-[100px] pointer-events-none" />
+                  <div className="absolute inset-0 bg-[170405]/30 rounded-full blur-[100px] pointer-events-none" />
 
                   {/* Transparent Floating Character Container */}
                   <div className="relative flex justify-center items-center bg-transparent p-0 border-0 shadow-none">

@@ -295,7 +295,7 @@ export const profileData = {
       client: "Kaiser International and Manila Bankers Assurance",
       publishedDate: "2024",
       views: "679",
-      appreciations: 0,
+      appreciations: 5745,
 
       behanceLink: "https://www.behance.net/erlanvillania",
 
@@ -311,6 +311,52 @@ export const profileData = {
         "Graphic Design",
         "Print Design",
         "Branding"
+      ]
+    },   
+    
+    // =========================================================
+    // PROJECT 05
+    // =========================================================
+
+    {
+      id: "gx-in-bangkok",
+      number: "05",
+
+      title: "GX IN BANGKOK EVENT",
+      category: "EVENT PROMOTIONAL DESIGN",
+      categoryLabel: "EVENT CAMPAIGN & DIGITAL DESIGN",
+
+      coverImage: "/projects/gx-in-bangkok/thailand icon.png",
+
+      images: [
+        "/projects/gx-in-bangkok/gx-in-bangkok 1.jpg",
+        "/projects/gx-in-bangkok/gx-in-bangkok 2.jpg",
+        "/projects/gx-in-bangkok/gx-in-bangkok 3.jpg",
+        "/projects/gx-in-bangkok/gx-in-bangkok 4.jpg",
+        "/projects/gx-in-bangkok/gx-in-bangkok 5.jpg"
+        
+      ],
+
+      client: "GX in Bangkok",
+      publishedDate: "2024",
+      views: "5768",
+      appreciations: 6789,
+
+      behanceLink: "https://www.behance.net/erlanvillania",
+
+      summary:
+        "Event campaign and promotional visuals designed for GX in Bangkok.",
+
+      description:
+        "A complete event design project for GX in Bangkok, featuring promotional graphics, social media creatives, event visuals, and digital marketing materials created to build excitement and deliver a strong visual identity for the event.",
+
+      tools: [
+        "Adobe Photoshop",
+        "Adobe Illustrator",
+        "Graphic Design",
+        "Social Media Design",
+        "Event Design",
+        "Digital Advertising"
       ]
     }
   ]
