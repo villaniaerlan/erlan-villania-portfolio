@@ -156,7 +156,10 @@ export const profileData = {
         "/projects/casino-design/Gods of Olympus 13.png",
           "/projects/casino-design/casino-gif.gif",
         "/projects/casino-design/Gods of Olympus 14.png",
-        "/projects/casino-design/Gods of Olympus 15.png"
+        "/projects/casino-design/Gods of Olympus 15.png",
+        "/projects/casino-design/Gods of Olympus 16.png",
+        "/projects/casino-design/Gods of Olympus 17.png",
+        "/projects/casino-design/Gods of Olympus 18.png"
         
 
       ],
