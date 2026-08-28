@@ -142,7 +142,7 @@ export const profileData = {
       // ALL images displayed when opening the project
       images: [
         "/projects/casino-design/Gods of Olympus 01.png",
-        "/projects/casino-design/Gods of Olympus 02.png",
+        "/projects/casino-design/gif for casino.gif",
         "/projects/casino-design/Gods of Olympus 03.png",
         "/projects/casino-design/Gods of Olympus 04.png",
         "/projects/casino-design/Gods of Olympus 05.png",
@@ -151,13 +151,20 @@ export const profileData = {
         "/projects/casino-design/Gods of Olympus 08.png",
         "/projects/casino-design/Gods of Olympus 09.png",
         "/projects/casino-design/Gods of Olympus 10.png",
-        "/projects/casino-design/Gods of Olympus 11.png"
+        "/projects/casino-design/Gods of Olympus 11.png",
+        "/projects/casino-design/Gods of Olympus 12.png",
+        "/projects/casino-design/Gods of Olympus 13.png",
+          "/projects/casino-design/casino-gif.gif",
+        "/projects/casino-design/Gods of Olympus 14.png",
+        "/projects/casino-design/Gods of Olympus 15.png"
+        
+
       ],
 
       client: "Digital Marketing",
       publishedDate: "2026",
       views: "857",
-      appreciations: 20,
+      appreciations: 2450,
 
       behanceLink: "https://www.behance.net/erlanvillania",
 
