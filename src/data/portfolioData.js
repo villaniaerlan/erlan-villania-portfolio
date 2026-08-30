@@ -343,7 +343,10 @@ export const profileData = {
         "/projects/gx-in-bangkok/gx-in-bangkok 2.jpg",
         "/projects/gx-in-bangkok/gx-in-bangkok 3.jpg",
         "/projects/gx-in-bangkok/gx-in-bangkok 4.jpg",
-        "/projects/gx-in-bangkok/gx-in-bangkok 5.jpg"
+        "/projects/gx-in-bangkok/gx-in-bangkok 5.png",
+        "/projects/gx-in-bangkok/gx-in-bangkok 6.png",
+        "/projects/gx-in-bangkok/gx-in-bangkok 7.png",
+        "/projects/gx-in-bangkok/gx-in-bangkok 8.png"
         
       ],
 
