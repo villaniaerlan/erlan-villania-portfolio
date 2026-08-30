@@ -187,49 +187,49 @@ export const profileData = {
     },
 
     // =========================================================
-    // PROJECT 02
-    // =========================================================
+// PROJECT 02
+// =========================================================
 
-    {
-      id: "social-media",
-      number: "02",
+{
+  id: "casino-creative-design",
+  number: "02",
 
-      title: "SOCIAL MEDIA POSTING",
-      category: "FOR FB, IG AND YOUTUBE",
-      categoryLabel: "SOCIAL MEDIA POSTING",
+  title: "CASINO CREATIVE DESIGNS",
+  category: "POSTERS, BANNERS & SOCIAL MEDIA",
+  categoryLabel: "CASINO CREATIVE DESIGNS",
 
-      // Main thumbnail
-      coverImage: "/projects/social-media/128x128.png",
+  // Main thumbnail
+  coverImage: "/projects/casino/casino icon.png",
 
-      // ALL images for this project
-      images: [
-        "/projects/social-media/128x128 01.png",
-        "/projects/social-media/128x128 02.png",
-        "/projects/social-media/128x128 03.png"
-      ],
+  // ALL images for this project
+  images: [
+    "/projects/casino/casino 01.png",
+    "/projects/casino/casino 02.png",
+    "/projects/casino/casino 03.png"
+  ],
 
-      client: "Digital Marketing",
-      publishedDate: "2026",
-      views: "1.2K",
-      appreciations: 25,
+  client: "Digital Marketing",
+  publishedDate: "2026",
+  views: "1.2K",
+  appreciations: 2546,
 
-      behanceLink: "https://www.behance.net/erlanvillania",
+  behanceLink: "https://www.behance.net/erlanvillania",
 
-      summary:
-        "Social media creatives designed for Facebook, Instagram, YouTube, and other digital platforms.",
+  summary:
+    "Casino graphic designs created for promotional campaigns, digital advertising, and social media platforms.",
 
-      description:
-        "A collection of social media creatives designed for Facebook, Instagram, YouTube, and other digital platforms. The designs focus on strong visual hierarchy, promotional messaging, branding, and attention-grabbing compositions.",
+  description:
+    "A collection of casino graphic designs featuring promotional posters, banners, social media creatives, and digital advertising layouts. The designs focus on bold visuals, strong typography, engaging compositions, and promotional messaging.",
 
-      tools: [
-        "Adobe Photoshop",
-        "Adobe Illustrator",
-        "Canva",
-        "CapCut",
-        "AI Tools",
-        "Social Media Design"
-      ]
-    },
+  tools: [
+    "Adobe Photoshop",
+    "Adobe Illustrator",
+    "Canva",
+    "AI Tools",
+    "Graphic Design",
+    "Digital Advertising"
+  ]
+},
 
     // =========================================================
 // PROJECT 03
