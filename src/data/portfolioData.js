@@ -205,12 +205,17 @@ export const profileData = {
   images: [
     "/projects/casino/casino 01.png",
     "/projects/casino/casino 02.png",
-    "/projects/casino/casino 03.png"
+    "/projects/casino/casino 03.png",
+    "/projects/casino/casino 04.png",
+    "/projects/casino/casino 05.png",
+    "/projects/casino/casino 06.png",
+    "/projects/casino/casino 07.png",
+    "/projects/casino/casino 08.png"
   ],
 
   client: "Digital Marketing",
   publishedDate: "2026",
-  views: "1.2K",
+  views: "3.2K",
   appreciations: 2546,
 
   behanceLink: "https://www.behance.net/erlanvillania",
@@ -224,7 +229,6 @@ export const profileData = {
   tools: [
     "Adobe Photoshop",
     "Adobe Illustrator",
-    "Canva",
     "AI Tools",
     "Graphic Design",
     "Digital Advertising"
