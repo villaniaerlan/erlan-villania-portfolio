@@ -133,7 +133,7 @@ export const profileData = {
       number: "01",
 
       title: "CASINO GRAPHIC DESIGN",
-      category: "E-COMMERCE WEBSITE",
+      category: "CASINO POSTERS, BANNERS & SOCIAL MEDIA DESIGN",
       categoryLabel: "CASINO GRAPHIC DESIGN",
 
       // Main thumbnail shown in Selected Projects
