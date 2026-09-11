@@ -112,22 +112,12 @@ export const profileData = {
   // =========================================================
   // SELECTED PROJECTS
   // =========================================================
-  //
-  // IMPORTANT:
-  // To add more images to a project, simply add them inside
-  // the "images" array.
-  //
-  // Example:
-  //
-  // images: [
-  //   "/projects/casino-design/image1.png",
-  //   "/projects/casino-design/image2.png",
-  //   "/projects/casino-design/image3.png"
-  // ]
-  //
-  // =========================================================
 
   selectedProjects: [
+    // =========================================================
+    // PROJECT 01
+    // =========================================================
+
     {
       id: "casino-design",
       number: "01",
@@ -154,14 +144,12 @@ export const profileData = {
         "/projects/casino-design/Gods of Olympus 11.png",
         "/projects/casino-design/Gods of Olympus 12.png",
         "/projects/casino-design/Gods of Olympus 13.png",
-          "/projects/casino-design/casino-gif.gif",
+        "/projects/casino-design/casino-gif.gif",
         "/projects/casino-design/Gods of Olympus 14.png",
         "/projects/casino-design/Gods of Olympus 15.png",
         "/projects/casino-design/Gods of Olympus 16.png",
         "/projects/casino-design/Gods of Olympus 17.png",
         "/projects/casino-design/Gods of Olympus 18.png"
-        
-
       ],
 
       client: "Digital Marketing",
@@ -187,107 +175,200 @@ export const profileData = {
     },
 
     // =========================================================
-// PROJECT 02
-// =========================================================
+    // PROJECT 02
+    // =========================================================
 
-{
-  id: "casino-creative-design",
-  number: "02",
+    {
+      id: "casino-creative-design",
+      number: "02",
 
-  title: "CASINO CREATIVE DESIGNS",
-  category: "POSTERS, BANNERS & SOCIAL MEDIA",
-  categoryLabel: "CASINO CREATIVE DESIGNS",
+      title: "CASINO CREATIVE DESIGNS",
+      category: "POSTERS, BANNERS & SOCIAL MEDIA",
+      categoryLabel: "CASINO CREATIVE DESIGNS",
 
-  // Main thumbnail
-  coverImage: "/projects/casino/casino icon.png",
+      // Main thumbnail
+      coverImage: "/projects/casino/casino icon.png",
 
-  // ALL images for this project
-  images: [
-    "/projects/casino/casino 01.png",
-    "/projects/casino/casino 02.png",
-    "/projects/casino/casino 03.png",
-    "/projects/casino/casino 04.png",
-    "/projects/casino/casino 05.png",
-    "/projects/casino/casino 06.png",
-    "/projects/casino/casino 07.png",
-    "/projects/casino/casino 08.png"
-  ],
+      // ALL images for this project
+      images: [
+        "/projects/casino/casino 01.png",
+        "/projects/casino/casino 02.png",
+        "/projects/casino/casino 03.png",
+        "/projects/casino/casino 04.png",
+        "/projects/casino/casino 05.png",
+        "/projects/casino/casino 06.png",
+        "/projects/casino/casino 07.png",
+        "/projects/casino/casino 08.png"
+      ],
 
-  client: "Digital Marketing",
-  publishedDate: "2026",
-  views: "3.2K",
-  appreciations: 2546,
+      client: "Digital Marketing",
+      publishedDate: "2026",
+      views: "3.2K",
+      appreciations: 2546,
 
-  behanceLink: "https://www.behance.net/erlanvillania",
+      behanceLink: "https://www.behance.net/erlanvillania",
 
-  summary:
-    "Casino graphic designs created for promotional campaigns, digital advertising, and social media platforms.",
+      summary:
+        "Casino graphic designs created for promotional campaigns, digital advertising, and social media platforms.",
 
-  description:
-    "A collection of casino graphic designs featuring promotional posters, banners, social media creatives, and digital advertising layouts. The designs focus on bold visuals, strong typography, engaging compositions, and promotional messaging.",
+      description:
+        "A collection of casino graphic designs featuring promotional posters, banners, social media creatives, and digital advertising layouts. The designs focus on bold visuals, strong typography, engaging compositions, and promotional messaging.",
 
-  tools: [
-    "Adobe Photoshop",
-    "Adobe Illustrator",
-    "AI Tools",
-    "Graphic Design",
-    "Digital Advertising"
-  ]
-},
+      tools: [
+        "Adobe Photoshop",
+        "Adobe Illustrator",
+        "AI Tools",
+        "Graphic Design",
+        "Digital Advertising"
+      ]
+    },
 
     // =========================================================
-// PROJECT 03
-// =========================================================
+    // PROJECT 03
+    // =========================================================
 
-{
-  id: "gx-in-japan",
-  number: "03",
+    {
+      id: "slot-game-design",
+      number: "03",
 
-  title: "GX IN JAPAN EVENT",
-  category: "EVENT PROMOTIONAL DESIGN",
-  categoryLabel: "GX IN JAPAN EVENT",
+      title: "SLOT GAME DESIGN",
+      category: "CUSTOM SLOT GAME ARTWORK",
+      categoryLabel: "SLOT GAME DESIGN",
 
-  // Main thumbnail
-  coverImage: "/projects/gx-in-japan/gx japan.png",
+      // Main thumbnail
+      coverImage: "/projects/slot-game-design/slot.png",
 
-  // ALL images for this project
-  images: [
-    "/projects/gx-in-japan/gx japan 01.jpg",
-    "/projects/gx-in-japan/gx japan 02.jpg",
-    "/projects/gx-in-japan/gx japan 03.jpg",
-    "/projects/gx-in-japan/gx japan 04.jpg",
-    "/projects/gx-in-japan/gx japan 05.jpg"
-  ],
+      // ALL images for this project
+      images: [
+        "/projects/slot-game-design/slot 01.png",
+        "/projects/slot-game-design/slot 02.png",
+        "/projects/slot-game-design/slot 03.png"
+      ],
 
-  client: "IMG EVENTS",
-  publishedDate: "2026",
-  views: "1,238",
-  appreciations: 504,
+      client: "Digital Marketing",
+      publishedDate: "2026",
+      views: "9856",
+      appreciations: 6794,
 
-  behanceLink: "https://www.behance.net/erlanvillania",
+      behanceLink: "https://www.behance.net/erlanvillania",
 
-  summary:
-    "Event promotional graphics created for the GX IN JAPAN event, featuring engaging visuals and branded promotional materials.",
+      summary:
+        "Custom slot game artwork created for digital gaming and promotional content.",
 
-  description:
-    "A collection of promotional graphics created for the GX IN JAPAN event. The project focuses on event branding, engaging visual compositions, promotional messaging, and creative layouts designed to capture attention and communicate the event's identity.",
+      description:
+        "A custom slot game artwork project focused on creating engaging visuals, bold compositions, and eye-catching graphics designed for digital gaming platforms.",
 
-  tools: [
-    "Adobe Photoshop",
-    "Adobe Illustrator",
-    "Event Design",
-    "Printed Materials",
-    "Graphic Design"
-  ]
-},
+      tools: [
+        "Adobe Photoshop",
+        "Adobe Illustrator",
+        "AI Tools",
+        "Graphic Design"
+      ]
+    },
 
     // =========================================================
     // PROJECT 04
     // =========================================================
 
     {
-      id: "calendar-design",
+      id: "gx-in-japan",
       number: "04",
+
+      title: "GX IN JAPAN EVENT",
+      category: "EVENT PROMOTIONAL DESIGN",
+      categoryLabel: "GX IN JAPAN EVENT",
+
+      // Main thumbnail
+      coverImage: "/projects/gx-in-japan/gx japan.png",
+
+      // ALL images for this project
+      images: [
+        "/projects/gx-in-japan/gx japan 01.jpg",
+        "/projects/gx-in-japan/gx japan 02.jpg",
+        "/projects/gx-in-japan/gx japan 03.jpg",
+        "/projects/gx-in-japan/gx japan 04.jpg",
+        "/projects/gx-in-japan/gx japan 05.jpg"
+      ],
+
+      client: "IMG EVENTS",
+      publishedDate: "2026",
+      views: "1,238",
+      appreciations: 504,
+
+      behanceLink: "https://www.behance.net/erlanvillania",
+
+      summary:
+        "Event promotional graphics created for the GX IN JAPAN event, featuring engaging visuals and branded promotional materials.",
+
+      description:
+        "A collection of promotional graphics created for the GX IN JAPAN event. The project focuses on event branding, engaging visual compositions, promotional messaging, and creative layouts designed to capture attention and communicate the event's identity.",
+
+      tools: [
+        "Adobe Photoshop",
+        "Adobe Illustrator",
+        "Event Design",
+        "Printed Materials",
+        "Graphic Design"
+      ]
+    },
+
+    // =========================================================
+    // PROJECT 05
+    // =========================================================
+
+    {
+      id: "gx-in-bangkok",
+      number: "05",
+
+      title: "GX IN BANGKOK EVENT",
+      category: "EVENT PROMOTIONAL DESIGN",
+      categoryLabel: "EVENT CAMPAIGN & DIGITAL DESIGN",
+
+      // Main thumbnail
+      coverImage: "/projects/gx-in-bangkok/thailand icon.png",
+
+      // ALL images for this project
+      images: [
+        "/projects/gx-in-bangkok/gx-in-bangkok 1.jpg",
+        "/projects/gx-in-bangkok/gx-in-bangkok 2.jpg",
+        "/projects/gx-in-bangkok/gx-in-bangkok 3.jpg",
+        "/projects/gx-in-bangkok/gx-in-bangkok 4.jpg",
+        "/projects/gx-in-bangkok/gx-in-bangkok 5.png",
+        "/projects/gx-in-bangkok/gx-in-bangkok 6.png",
+        "/projects/gx-in-bangkok/gx-in-bangkok 7.png",
+        "/projects/gx-in-bangkok/gx-in-bangkok 8.png"
+      ],
+
+      client: "GX in Bangkok",
+      publishedDate: "2024",
+      views: "5768",
+      appreciations: 6789,
+
+      behanceLink: "https://www.behance.net/erlanvillania",
+
+      summary:
+        "Event campaign and promotional visuals designed for GX in Bangkok.",
+
+      description:
+        "A complete event design project for GX in Bangkok, featuring promotional graphics, social media creatives, event visuals, and digital marketing materials created to build excitement and deliver a strong visual identity for the event.",
+
+      tools: [
+        "Adobe Photoshop",
+        "Adobe Illustrator",
+        "Graphic Design",
+        "Social Media Design",
+        "Event Design",
+        "Digital Advertising"
+      ]
+    },
+
+    // =========================================================
+    // PROJECT 06
+    // =========================================================
+
+    {
+      id: "calendar-design",
+      number: "06",
 
       title: "CALENDAR & BRAND COLLATERAL",
       category: "KAISER INTERNATIONAL AND MANILA BANKERS ASSURANCE",
@@ -326,55 +407,6 @@ export const profileData = {
         "Print Design",
         "Branding"
       ]
-    },   
-    
-    // =========================================================
-    // PROJECT 05
-    // =========================================================
-
-    {
-      id: "gx-in-bangkok",
-      number: "05",
-
-      title: "GX IN BANGKOK EVENT",
-      category: "EVENT PROMOTIONAL DESIGN",
-      categoryLabel: "EVENT CAMPAIGN & DIGITAL DESIGN",
-
-      coverImage: "/projects/gx-in-bangkok/thailand icon.png",
-
-      images: [
-        "/projects/gx-in-bangkok/gx-in-bangkok 1.jpg",
-        "/projects/gx-in-bangkok/gx-in-bangkok 2.jpg",
-        "/projects/gx-in-bangkok/gx-in-bangkok 3.jpg",
-        "/projects/gx-in-bangkok/gx-in-bangkok 4.jpg",
-        "/projects/gx-in-bangkok/gx-in-bangkok 5.png",
-        "/projects/gx-in-bangkok/gx-in-bangkok 6.png",
-        "/projects/gx-in-bangkok/gx-in-bangkok 7.png",
-        "/projects/gx-in-bangkok/gx-in-bangkok 8.png"
-        
-      ],
-
-      client: "GX in Bangkok",
-      publishedDate: "2024",
-      views: "5768",
-      appreciations: 6789,
-
-      behanceLink: "https://www.behance.net/erlanvillania",
-
-      summary:
-        "Event campaign and promotional visuals designed for GX in Bangkok.",
-
-      description:
-        "A complete event design project for GX in Bangkok, featuring promotional graphics, social media creatives, event visuals, and digital marketing materials created to build excitement and deliver a strong visual identity for the event.",
-
-      tools: [
-        "Adobe Photoshop",
-        "Adobe Illustrator",
-        "Graphic Design",
-        "Social Media Design",
-        "Event Design",
-        "Digital Advertising"
-      ]
     }
   ]
-}
+};
