@@ -6,14 +6,36 @@ export default function ContactFooter() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.name || !formData.email || !formData.message) return;
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
+
+    try {
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send message.');
+      }
+
+      setSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
-    }, 4000);
+
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 4000);
+    } catch (error) {
+      console.error(error);
+      alert('Failed to send message. Please try again.');
+    }
   };
 
   return (
@@ -61,7 +83,9 @@ export default function ContactFooter() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase block mb-1">YOUR NAME</label>
+                  <label className="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase block mb-1">
+                    YOUR NAME
+                  </label>
                   <input
                     type="text"
                     required
@@ -73,7 +97,9 @@ export default function ContactFooter() {
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase block mb-1">YOUR EMAIL</label>
+                  <label className="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase block mb-1">
+                    YOUR EMAIL
+                  </label>
                   <input
                     type="email"
                     required
@@ -85,7 +111,9 @@ export default function ContactFooter() {
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase block mb-1">PROJECT DETAILS</label>
+                  <label className="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase block mb-1">
+                    PROJECT DETAILS
+                  </label>
                   <textarea
                     required
                     rows={3}
@@ -110,33 +138,56 @@ export default function ContactFooter() {
           {/* Right Column: Clickable Contact Details */}
           <div className="lg:col-span-3 space-y-4">
             
-            <a href={`mailto:${profileData.email}`} className="flex items-center gap-3 p-3 rounded-xl bg-[#121212] border border-[#222] hover:border-crimson transition-all group">
+            <a
+              href={`mailto:${profileData.email}`}
+              className="flex items-center gap-3 p-3 rounded-xl bg-[#121212] border border-[#222] hover:border-crimson transition-all group"
+            >
               <div className="w-9 h-9 rounded-lg bg-[#1D1D1D] text-slate-300 flex items-center justify-center shrink-0 group-hover:bg-crimson group-hover:text-white transition-colors">
                 <Mail className="w-4 h-4 text-crimson group-hover:text-white" />
               </div>
               <div className="overflow-hidden">
-                <div className="text-[10px] font-extrabold tracking-widest text-slate-500 uppercase">EMAIL</div>
-                <div className="text-xs font-bold text-slate-200 truncate group-hover:text-crimson transition-colors">{profileData.email}</div>
+                <div className="text-[10px] font-extrabold tracking-widest text-slate-500 uppercase">
+                  EMAIL
+                </div>
+                <div className="text-xs font-bold text-slate-200 truncate group-hover:text-crimson transition-colors">
+                  {profileData.email}
+                </div>
               </div>
             </a>
 
-            <a href={profileData.behanceUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl bg-[#121212] border border-[#222] hover:border-crimson transition-all group">
+            <a
+              href={profileData.behanceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 p-3 rounded-xl bg-[#121212] border border-[#222] hover:border-crimson transition-all group"
+            >
               <div className="w-9 h-9 rounded-lg bg-[#1D1D1D] text-slate-300 flex items-center justify-center shrink-0 group-hover:bg-crimson group-hover:text-white transition-colors">
                 <Globe className="w-4 h-4 text-crimson group-hover:text-white" />
               </div>
               <div className="overflow-hidden">
-                <div className="text-[10px] font-extrabold tracking-widest text-slate-500 uppercase">BEHANCE PROFILE</div>
-                <div className="text-xs font-bold text-slate-200 truncate group-hover:text-crimson transition-colors">behance.net/erlanvillania</div>
+                <div className="text-[10px] font-extrabold tracking-widest text-slate-500 uppercase">
+                  BEHANCE PROFILE
+                </div>
+                <div className="text-xs font-bold text-slate-200 truncate group-hover:text-crimson transition-colors">
+                  behance.net/erlanvillania
+                </div>
               </div>
             </a>
 
-            <a href={`tel:${profileData.phone}`} className="flex items-center gap-3 p-3 rounded-xl bg-[#121212] border border-[#222] hover:border-crimson transition-all group">
+            <a
+              href={`tel:${profileData.phone}`}
+              className="flex items-center gap-3 p-3 rounded-xl bg-[#121212] border border-[#222] hover:border-crimson transition-all group"
+            >
               <div className="w-9 h-9 rounded-lg bg-[#1D1D1D] text-slate-300 flex items-center justify-center shrink-0 group-hover:bg-crimson group-hover:text-white transition-colors">
                 <Phone className="w-4 h-4 text-crimson group-hover:text-white" />
               </div>
               <div>
-                <div className="text-[10px] font-extrabold tracking-widest text-slate-500 uppercase">PHONE / WHATSAPP</div>
-                <div className="text-xs font-bold text-slate-200 group-hover:text-crimson transition-colors">{profileData.phone}</div>
+                <div className="text-[10px] font-extrabold tracking-widest text-slate-500 uppercase">
+                  PHONE / WHATSAPP
+                </div>
+                <div className="text-xs font-bold text-slate-200 group-hover:text-crimson transition-colors">
+                  {profileData.phone}
+                </div>
               </div>
             </a>
 
@@ -145,8 +196,12 @@ export default function ContactFooter() {
                 <MapPin className="w-4 h-4 text-crimson" />
               </div>
               <div>
-                <div className="text-[10px] font-extrabold tracking-widest text-slate-500 uppercase">LOCATION</div>
-                <div className="text-xs font-bold text-slate-200">{profileData.city}</div>
+                <div className="text-[10px] font-extrabold tracking-widest text-slate-500 uppercase">
+                  LOCATION
+                </div>
+                <div className="text-xs font-bold text-slate-200">
+                  {profileData.city}
+                </div>
               </div>
             </div>
 
@@ -157,16 +212,32 @@ export default function ContactFooter() {
         {/* Copyright Footer Line */}
         <div className="pt-8 border-t border-[#181818] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-extrabold tracking-widest text-slate-500 uppercase">
           <div className="text-center sm:text-left">
-  © {new Date().getFullYear()} ERLAN VILLANIA — ALL RIGHTS RESERVED
-</div>
-<div className="flex items-center gap-4">
-  <a href={profileData.behanceUrl} target="_blank" rel="noopener noreferrer" className="hover:text-crimson transition-colors">BEHANCE</a>
-  <span>•</span>
-  <a href="#work" className="hover:text-crimson transition-colors">WORK</a>
-  <span>•</span>
-  <a href="#about" className="hover:text-crimson transition-colors">ABOUT</a>
-</div>
-</div>
+            © {new Date().getFullYear()} ERLAN VILLANIA — ALL RIGHTS RESERVED
+          </div>
+
+          <div className="flex items-center gap-4">
+            <a
+              href={profileData.behanceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-crimson transition-colors"
+            >
+              BEHANCE
+            </a>
+
+            <span>•</span>
+
+            <a href="#work" className="hover:text-crimson transition-colors">
+              WORK
+            </a>
+
+            <span>•</span>
+
+            <a href="#about" className="hover:text-crimson transition-colors">
+              ABOUT
+            </a>
+          </div>
+        </div>
 
       </div>
     </footer>

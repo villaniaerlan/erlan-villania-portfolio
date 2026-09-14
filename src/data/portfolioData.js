@@ -242,7 +242,8 @@ export const profileData = {
       images: [
         "/projects/slot-game-design/slot 01.png",
         "/projects/slot-game-design/slot 02.png",
-        "/projects/slot-game-design/slot 03.png"
+        "/projects/slot-game-design/slot 03.png",
+        "/projects/slot-game-design/slot 04.png"
       ],
 
       client: "Digital Marketing",
