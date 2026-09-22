@@ -117,13 +117,12 @@ export default function ProjectModal({
 
 
       {/* =====================================================
-          MODAL CONTAINER
+          MODAL
           ===================================================== */}
 
       <div
         className={`
           relative
-
           z-10
 
           w-full
@@ -191,14 +190,11 @@ export default function ProjectModal({
           "
         >
 
-          {/* BACK */}
-
           <button
             type="button"
             onClick={handleClose}
             className="
               group
-
               flex
               items-center
               gap-2
@@ -237,13 +233,10 @@ export default function ProjectModal({
           </button>
 
 
-          {/* CENTER TITLE */}
-
           <span
             className="
               absolute
               left-1/2
-
               -translate-x-1/2
 
               max-w-[42%]
@@ -267,8 +260,6 @@ export default function ProjectModal({
             {project.title}
           </span>
 
-
-          {/* CLOSE */}
 
           <button
             type="button"
@@ -327,7 +318,6 @@ export default function ProjectModal({
             overflow-x-hidden
 
             overscroll-contain
-
             touch-pan-y
 
             scrollbar-thin
@@ -342,8 +332,8 @@ export default function ProjectModal({
             className="
               w-full
 
-              px-5
-              py-6
+              px-3
+              py-5
 
               sm:px-7
               sm:py-8
@@ -359,7 +349,7 @@ export default function ProjectModal({
 
             <div
               className="
-                mb-7
+                mb-5
                 sm:mb-9
 
                 animate-modal-header
@@ -370,7 +360,7 @@ export default function ProjectModal({
                 className="
                   flex
                   items-center
-                  gap-3
+                  gap-2.5
 
                   mb-2
                 "
@@ -380,7 +370,8 @@ export default function ProjectModal({
                   className="
                     font-display
 
-                    text-2xl
+                    text-xl
+                    sm:text-2xl
 
                     font-extrabold
 
@@ -394,7 +385,7 @@ export default function ProjectModal({
 
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
                     sm:text-[10px]
 
                     font-bold
@@ -416,7 +407,7 @@ export default function ProjectModal({
                 className="
                   font-display
 
-                  text-3xl
+                  text-2xl
                   sm:text-4xl
                   md:text-5xl
 
@@ -435,11 +426,10 @@ export default function ProjectModal({
               </h2>
 
 
-              {/* RED ACCENT */}
-
               <div
                 className="
-                  mt-4
+                  mt-3
+                  sm:mt-4
 
                   flex
                   items-center
@@ -449,7 +439,9 @@ export default function ProjectModal({
 
                 <div
                   className="
-                    w-12
+                    w-10
+                    sm:w-12
+
                     h-1
 
                     bg-crimson
@@ -476,18 +468,18 @@ export default function ProjectModal({
 
             {/* =================================================
                 PROJECT IMAGE GALLERY
-
-                IMPORTANT:
-                NO BORDER-T BETWEEN IMAGES
                 ================================================= */}
 
             {projectImages.length > 0 ? (
 
               <div
                 className="
+                  project-modal-gallery
+
                   overflow-hidden
 
-                  rounded-xl
+                  rounded-lg
+                  sm:rounded-xl
 
                   border
                   border-[#292929]
@@ -503,8 +495,9 @@ export default function ProjectModal({
                   <div
                     key={`${image}-${index}`}
                     className="
-                      relative
+                      project-modal-gallery-item
 
+                      relative
                       overflow-hidden
 
                       bg-[#101010]
@@ -519,8 +512,6 @@ export default function ProjectModal({
                     }}
                   >
 
-                    {/* IMAGE */}
-
                     <img
                       src={image}
                       alt={`${project.title} - ${index + 1}`}
@@ -529,17 +520,22 @@ export default function ProjectModal({
                           ? 'eager'
                           : 'lazy'
                       }
+                      decoding="async"
+                      draggable="false"
                       className="
+                        project-modal-gallery-image
+
                         block
 
                         w-full
+                        max-w-full
+
                         h-auto
 
                         object-contain
 
                         transition-transform
                         duration-[1200ms]
-
                         ease-[cubic-bezier(.22,1,.36,1)]
 
                         group-hover:scale-[1.012]
@@ -569,8 +565,6 @@ export default function ProjectModal({
                     />
 
 
-                    {/* SUBTLE IMAGE GRADIENT */}
-
                     <div
                       className="
                         absolute
@@ -587,8 +581,6 @@ export default function ProjectModal({
                       "
                     />
 
-
-                    {/* IMAGE HIGHLIGHT */}
 
                     <div
                       className="
@@ -654,7 +646,7 @@ export default function ProjectModal({
                 border-t
                 border-[#292929]
 
-                my-7
+                my-6
                 sm:my-8
               "
             />
@@ -671,19 +663,18 @@ export default function ProjectModal({
                 grid-cols-1
                 lg:grid-cols-12
 
-                gap-7
+                gap-10
+                lg:gap-7
 
                 animate-modal-content
               "
             >
 
-              {/* LEFT */}
-
               <div
                 className="
                   lg:col-span-8
 
-                  space-y-6
+                  space-y-10
                 "
               >
 
@@ -709,6 +700,7 @@ export default function ProjectModal({
                     PROJECT OVERVIEW
                   </h3>
 
+
                   <p
                     className="
                       text-sm
@@ -726,6 +718,138 @@ export default function ProjectModal({
                   </p>
 
                 </div>
+
+
+                {/* PROCESS */}
+
+                {project.process &&
+                  project.process.length > 0 && (
+
+                    <div>
+
+                      <h4
+                        className="
+                          text-[10px]
+
+                          font-extrabold
+
+                          tracking-widest
+
+                          text-slate-500
+
+                          uppercase
+
+                          mb-4
+                        "
+                      >
+                        PROCESS
+                      </h4>
+
+
+                      <div
+                        className="
+                          space-y-5
+                        "
+                      >
+
+                        {project.process.map(
+                          (step, index) => (
+
+                            <div
+                              key={index}
+                              className="
+                                flex
+                                items-start
+                                gap-3
+                              "
+                            >
+
+                              <div
+                                className="
+                                  shrink-0
+
+                                  flex
+                                  items-center
+                                  justify-center
+
+                                  w-7
+                                  h-7
+
+                                  rounded-full
+
+                                  bg-[#111]
+
+                                  border
+                                  border-[#333]
+
+                                  text-[9px]
+
+                                  font-extrabold
+
+                                  text-crimson
+                                "
+                              >
+                                {index + 1}
+                              </div>
+
+
+                              <div
+                                className="
+                                  min-w-0
+                                  flex-1
+                                "
+                              >
+
+                                <p
+                                  className="
+                                    text-xs
+
+                                    font-bold
+
+                                    text-white
+
+                                    leading-relaxed
+                                  "
+                                >
+                                  {typeof step === 'string'
+                                    ? step
+                                    : step.title ||
+                                      step.name ||
+                                      `Step ${index + 1}`}
+                                </p>
+
+
+                                {typeof step !== 'string' &&
+                                  step.description && (
+
+                                    <p
+                                      className="
+                                        mt-1
+
+                                        text-[11px]
+
+                                        leading-relaxed
+
+                                        text-slate-500
+                                      "
+                                    >
+                                      {step.description}
+                                    </p>
+
+                                  )}
+
+                              </div>
+
+                            </div>
+
+                          )
+                        )}
+
+                      </div>
+
+                    </div>
+
+                  )}
 
 
                 {/* TOOLS */}
@@ -747,7 +871,7 @@ export default function ProjectModal({
 
                           uppercase
 
-                          mb-3
+                          mb-4
 
                           flex
                           items-center
@@ -773,6 +897,7 @@ export default function ProjectModal({
                         className="
                           flex
                           flex-wrap
+
                           gap-2
                         "
                       >
@@ -823,7 +948,9 @@ export default function ProjectModal({
               </div>
 
 
-              {/* RIGHT INFO */}
+              {/* =================================================
+                  INFO
+                  ================================================= */}
 
               <div
                 className="
@@ -891,7 +1018,7 @@ export default function ProjectModal({
 
 
             {/* =================================================
-                ACTION BUTTONS
+                ACTIONS
                 ================================================= */}
 
             <div
@@ -911,8 +1038,6 @@ export default function ProjectModal({
                 animationDelay: '150ms',
               }}
             >
-
-              {/* APPRECIATE */}
 
               <button
                 type="button"
@@ -955,7 +1080,6 @@ export default function ProjectModal({
                         bg-[#111]
                         border-[#333]
                         text-slate-300
-
                         hover:border-crimson
                         hover:text-white
                         hover:bg-[#151515]
@@ -986,8 +1110,6 @@ export default function ProjectModal({
 
               </button>
 
-
-              {/* BEHANCE */}
 
               <a
                 href={
@@ -1050,7 +1172,7 @@ export default function ProjectModal({
 
 
             {/* =================================================
-                BOTTOM BACK
+                BACK TO PROJECTS
                 ================================================= */}
 
             <button
@@ -1062,6 +1184,7 @@ export default function ProjectModal({
                 mx-auto
 
                 mt-7
+
                 pb-6
 
                 text-[8px]
@@ -1090,12 +1213,17 @@ export default function ProjectModal({
 
 
       {/* =====================================================
-          ANIMATIONS
+          STYLES
           ===================================================== */}
 
       <style>{`
 
+        /* =====================================================
+           ANIMATIONS — PRESERVED
+           ===================================================== */
+
         @keyframes modal-header-in {
+
           from {
             opacity: 0;
             transform: translateY(18px);
@@ -1107,10 +1235,12 @@ export default function ProjectModal({
             transform: translateY(0);
             filter: blur(0);
           }
+
         }
 
 
         @keyframes modal-image-in {
+
           from {
             opacity: 0;
             transform: translateY(18px) scale(.985);
@@ -1120,10 +1250,12 @@ export default function ProjectModal({
             opacity: 1;
             transform: translateY(0) scale(1);
           }
+
         }
 
 
         @keyframes modal-content-in {
+
           from {
             opacity: 0;
             transform: translateY(14px);
@@ -1133,75 +1265,231 @@ export default function ProjectModal({
             opacity: 1;
             transform: translateY(0);
           }
+
         }
 
 
         .animate-modal-header {
+
           animation:
             modal-header-in
             .75s
             cubic-bezier(.22,1,.36,1)
             both;
+
         }
 
 
         .animate-modal-image {
+
           animation:
             modal-image-in
             .8s
             cubic-bezier(.22,1,.36,1)
             both;
+
         }
 
 
         .animate-modal-content {
+
           animation:
             modal-content-in
             .7s
             cubic-bezier(.22,1,.36,1)
             both;
+
         }
 
 
+        /* =====================================================
+           GALLERY
+           ===================================================== */
+
+        .project-modal-gallery {
+
+          width: 100%;
+          max-width: 100%;
+
+          overflow: hidden;
+
+          contain: layout paint;
+
+        }
+
+
+        .project-modal-gallery-item {
+
+          position: relative;
+
+          display: block;
+
+          width: 100%;
+          max-width: 100%;
+
+          overflow: hidden;
+
+        }
+
+
+        .project-modal-gallery-image {
+
+          display: block;
+
+          width: 100%;
+          max-width: 100%;
+
+          height: auto;
+
+          margin: 0;
+          padding: 0;
+
+          object-fit: contain;
+
+          vertical-align: top;
+
+          line-height: 0;
+
+          user-select: none;
+
+          -webkit-user-drag: none;
+
+        }
+
+
+        /* =====================================================
+           MOBILE — SIZE ONLY
+           
+           IMPORTANT:
+           Animation is NOT disabled.
+           Transform is NOT disabled.
+           Desktop behavior is preserved.
+           ===================================================== */
+
         @media (max-width: 640px) {
 
-          .animate-modal-image {
-            animation-duration: .65s;
+          .project-modal-gallery {
+
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+
+            overflow: hidden;
+
+            contain: layout paint;
+
+          }
+
+
+          .project-modal-gallery-item {
+
+            position: relative;
+
+            display: block;
+
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+
+            margin: 0;
+            padding: 0;
+
+            overflow: hidden;
+
+          }
+
+
+          /*
+            Small controlled leading between assets.
+          */
+
+          .project-modal-gallery-item
+          + .project-modal-gallery-item {
+
+            margin-top: 1px;
+
+          }
+
+
+          /*
+            MOBILE IMAGE SIZE ONLY.
+            
+            Natural aspect ratio is preserved.
+          */
+
+          .project-modal-gallery-image {
+
+            display: block;
+
+            width: 100%;
+            max-width: 100%;
+
+            height: auto;
+
+            min-width: 0;
+
+            margin: 0;
+            padding: 0;
+
+            object-fit: contain;
+
+            object-position: center top;
+
+            vertical-align: top;
+
           }
 
         }
 
+
+        /* =====================================================
+           REDUCED MOTION
+           ===================================================== */
 
         @media (prefers-reduced-motion: reduce) {
 
           .animate-modal-header,
           .animate-modal-image,
           .animate-modal-content {
+
             animation: none !important;
+
           }
 
         }
 
 
-        /* =================================================
-           CUSTOM SCROLLBAR
-           ================================================= */
+        /* =====================================================
+           SCROLLBAR
+           ===================================================== */
 
         .project-modal-scroll::-webkit-scrollbar {
+
           width: 5px;
+
         }
+
 
         .project-modal-scroll::-webkit-scrollbar-track {
+
           background: #0a0a0a;
+
         }
+
 
         .project-modal-scroll::-webkit-scrollbar-thumb {
+
           background: #292929;
+
           border-radius: 999px;
+
         }
 
+
         .project-modal-scroll::-webkit-scrollbar-thumb:hover {
+
           background: #444;
+
         }
 
       `}</style>
@@ -1229,6 +1517,9 @@ function InfoRow({
         items-start
         gap-3
 
+        w-full
+        min-w-0
+
         ${
           middle
             ? 'py-4 border-y border-[#292929]'
@@ -1242,9 +1533,7 @@ function InfoRow({
       <div
         className="
           text-crimson
-
           mt-0.5
-
           shrink-0
         "
       >
@@ -1252,7 +1541,12 @@ function InfoRow({
       </div>
 
 
-      <div>
+      <div
+        className="
+          min-w-0
+          flex-1
+        "
+      >
 
         <p
           className="
@@ -1280,6 +1574,8 @@ function InfoRow({
             text-white
 
             mt-1
+
+            break-words
           "
         >
           {value}

@@ -2543,14 +2543,14 @@ export default function Hero() {
 
           .erl-portfolio-text {
 
-            font-size: 52vw;
+            font-size: 65vw;
 
-            letter-spacing: -0.025em;
+            letter-spacing: -0.010em;
 
             opacity: .72;
 
             animation-duration:
-              10s;
+              8s;
           }
 
 
