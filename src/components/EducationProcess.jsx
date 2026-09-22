@@ -1107,6 +1107,11 @@ export default function EducationProcess() {
                   shadow-2xl
 
                   tools-card
+
+                  mx-4
+                  sm:mx-6
+                  lg:mx-4
+                  xl:mx-6
                 "
               >
 
