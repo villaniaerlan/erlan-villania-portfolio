@@ -232,8 +232,8 @@ export default function EducationProcess() {
         @media (max-width: 640px) {
 
           .education-section {
-            padding-top: 4.5rem;
-            padding-bottom: 4.5rem;
+            padding-top: 4rem;
+            padding-bottom: 4rem;
           }
 
 
@@ -253,7 +253,23 @@ export default function EducationProcess() {
 
           .education-section
           .grid {
-            gap: 3.75rem;
+            gap: 2rem;
+          }
+
+
+          /* -----------------------------------------------
+             TOOLS POSITION
+          ------------------------------------------------ */
+
+          .education-section
+          .mobile-tools-column {
+            margin-top: 3rem;
+
+            /*
+             Prevent the desktop parallax transform
+             from pulling Tools upward on mobile.
+            */
+            transform: none !important;
           }
 
 
@@ -512,7 +528,7 @@ export default function EducationProcess() {
 
           .education-section
           .grid {
-            gap: 3.25rem;
+            gap: 2rem;
           }
 
 
@@ -1025,6 +1041,7 @@ export default function EducationProcess() {
           <div
             className={`
               lg:col-span-4
+              mobile-tools-column
 
               transition-all
               duration-1000
