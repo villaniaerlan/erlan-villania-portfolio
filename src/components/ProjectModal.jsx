@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   X,
   ThumbsUp,
@@ -7,20 +7,61 @@ import {
   Calendar,
   User,
   Wrench,
-  ArrowLeft
+  ArrowLeft,
 } from 'lucide-react';
 import { profileData } from '../data/portfolioData';
 
-export default function ProjectModal({ project, onClose, darkMode }) {
+export default function ProjectModal({
+  project,
+  onClose,
+  darkMode,
+}) {
   const [appreciated, setAppreciated] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  /* =========================================================
+     OPEN / CLOSE
+     ========================================================= */
+
+  useEffect(() => {
+    if (!project) return;
+
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = 'hidden';
+
+    requestAnimationFrame(() => {
+      setVisible(true);
+    });
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        handleClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [project]);
+
+  const handleClose = () => {
+    setVisible(false);
+
+    setTimeout(() => {
+      onClose();
+    }, 350);
+  };
 
   if (!project) return null;
 
   const appreciationsCount =
-    (project.appreciations || 0) + (appreciated ? 1 : 0);
+    (project.appreciations || 0) +
+    (appreciated ? 1 : 0);
 
-  // Use all images from the project.
-  // If images[] is missing, use coverImage as fallback.
   const projectImages =
     project.images && project.images.length > 0
       ? project.images
@@ -29,246 +70,818 @@ export default function ProjectModal({ project, onClose, darkMode }) {
         : [];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-sm">
+    <div
+      className={`
+        fixed
+        inset-0
+        z-[100]
 
-      {/* BACKDROP */}
-      <div
-        className="absolute inset-0"
-        onClick={onClose}
+        flex
+        items-center
+        justify-center
+
+        p-0
+        sm:p-4
+        md:p-6
+
+        transition-all
+        duration-500
+        ease-[cubic-bezier(.22,1,.36,1)]
+
+        ${
+          visible
+            ? 'bg-black/90 backdrop-blur-md'
+            : 'bg-black/0 backdrop-blur-0'
+        }
+      `}
+    >
+
+      {/* =====================================================
+          BACKDROP
+          ===================================================== */}
+
+      <button
+        type="button"
+        aria-label="Close project modal"
+        onClick={handleClose}
+        className="
+          absolute
+          inset-0
+
+          w-full
+          h-full
+
+          cursor-default
+        "
       />
 
-      {/* MODAL */}
-      <div className="relative w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-2xl bg-[#080808] text-white border border-[#292929] shadow-2xl z-10">
 
-        {/* TOP BAR */}
-        <div className="sticky top-0 z-30 flex items-center justify-between px-5 sm:px-7 py-4 bg-[#080808]/95 backdrop-blur-md border-b border-[#252525]">
+      {/* =====================================================
+          MODAL CONTAINER
+          ===================================================== */}
 
-          {/* BACK BUTTON */}
+      <div
+        className={`
+          relative
+
+          z-10
+
+          w-full
+          max-w-6xl
+
+          h-[100dvh]
+          max-h-[100dvh]
+
+          sm:h-[94vh]
+          sm:max-h-[94vh]
+
+          overflow-hidden
+
+          bg-[#080808]
+          text-white
+
+          border-0
+          sm:border
+          sm:border-[#292929]
+
+          sm:rounded-2xl
+
+          shadow-[0_30px_100px_rgba(0,0,0,.65)]
+
+          transition-all
+          duration-500
+
+          ease-[cubic-bezier(.22,1,.36,1)]
+
+          ${
+            visible
+              ? 'opacity-100 translate-y-0 scale-100'
+              : 'opacity-0 translate-y-8 scale-[0.97]'
+          }
+        `}
+      >
+
+        {/* ===================================================
+            TOP BAR
+            =================================================== */}
+
+        <div
+          className="
+            relative
+            z-50
+
+            flex
+            items-center
+            justify-between
+
+            shrink-0
+
+            h-[58px]
+
+            px-4
+            sm:px-6
+            md:px-7
+
+            bg-[#080808]/95
+
+            backdrop-blur-xl
+
+            border-b
+            border-[#252525]
+          "
+        >
+
+          {/* BACK */}
+
           <button
-            onClick={onClose}
-            className="flex items-center gap-2 text-[10px] sm:text-xs font-bold tracking-widest text-slate-400 hover:text-white transition-colors uppercase"
+            type="button"
+            onClick={handleClose}
+            className="
+              group
+
+              flex
+              items-center
+              gap-2
+
+              text-[9px]
+              sm:text-xs
+
+              font-bold
+              tracking-widest
+
+              text-slate-400
+
+              hover:text-white
+
+              transition-colors
+              duration-300
+            "
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>BACK</span>
+
+            <ArrowLeft
+              className="
+                w-3.5
+                h-3.5
+
+                transition-transform
+                duration-300
+
+                group-hover:-translate-x-1
+              "
+            />
+
+            <span>
+              BACK
+            </span>
+
           </button>
 
-          {/* CATEGORY */}
-          <span className="text-[9px] sm:text-[10px] font-bold tracking-[0.25em] text-[#e21c23] uppercase">
+
+          {/* CENTER TITLE */}
+
+          <span
+            className="
+              absolute
+              left-1/2
+
+              -translate-x-1/2
+
+              max-w-[42%]
+
+              truncate
+
+              text-[8px]
+              sm:text-[10px]
+
+              font-bold
+
+              tracking-[0.22em]
+
+              text-crimson
+
+              uppercase
+
+              text-center
+            "
+          >
             {project.title}
           </span>
 
-          {/* CLOSE BUTTON */}
+
+          {/* CLOSE */}
+
           <button
-            onClick={onClose}
-            className="p-2 rounded-lg border border-[#333] text-slate-400 hover:text-white hover:border-[#e21c23] hover:bg-[#e21c23]/10 transition-all"
+            type="button"
+            onClick={handleClose}
+            className="
+              group
+
+              p-2
+
+              rounded-lg
+
+              border
+              border-[#333]
+
+              text-slate-400
+
+              hover:text-white
+              hover:border-crimson
+              hover:bg-crimson/10
+
+              transition-all
+              duration-300
+            "
             title="Close"
           >
-            <X className="w-4 h-4" />
+
+            <X
+              className="
+                w-4
+                h-4
+
+                transition-transform
+                duration-300
+
+                group-hover:rotate-90
+              "
+            />
+
           </button>
 
         </div>
 
-        {/* MAIN CONTENT */}
-        <div className="p-5 sm:p-7 md:p-8">
 
-          {/* PROJECT HEADER */}
-          <div className="mb-7">
+        {/* ===================================================
+            SCROLLABLE CONTENT
+            =================================================== */}
 
-            <div className="flex items-center gap-3 mb-2">
+        <div
+          className="
+            relative
 
-              {/* PROJECT NUMBER */}
-              <span className="font-display text-2xl font-extrabold text-[#e21c23]">
-                {project.number}
-              </span>
+            h-[calc(100dvh-58px)]
+            sm:h-[calc(94vh-58px)]
 
-              {/* CATEGORY */}
-              <span className="text-[9px] sm:text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase">
-                {project.category}
-              </span>
+            overflow-y-auto
+            overflow-x-hidden
 
-            </div>
+            overscroll-contain
 
-            {/* PROJECT TITLE */}
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white uppercase">
-              {project.title}
-            </h2>
+            touch-pan-y
 
-            {/* RED LINE */}
-            <div className="w-12 h-1 bg-[#e21c23] mt-4" />
+            scrollbar-thin
+            scrollbar-track-[#0a0a0a]
+            scrollbar-thumb-[#292929]
 
-          </div>
+            [-webkit-overflow-scrolling:touch]
+          "
+        >
 
+          <div
+            className="
+              w-full
 
-          {/* =====================================================
-              PROJECT IMAGE GALLERY
-              NO IMAGE NUMBER
-              NO SPACE BETWEEN IMAGES
-              ===================================================== */}
+              px-5
+              py-6
 
-          <div className="space-y-0 -mx-5 sm:mx-0">
+              sm:px-7
+              sm:py-8
 
-            {projectImages.map((image, index) => (
+              md:px-8
+              md:py-9
+            "
+          >
+
+            {/* =================================================
+                PROJECT HEADER
+                ================================================= */}
+
+            <div
+              className="
+                mb-7
+                sm:mb-9
+
+                animate-modal-header
+              "
+            >
 
               <div
-                key={`${image}-${index}`}
-                className={`
-                  relative
-                  overflow-hidden
-                  bg-[#101010]
-                  border-x
-                  border-[#292929]
-                  group
-                  ${index === 0 ? 'rounded-t-xl border-t' : ''}
-                  ${index === projectImages.length - 1 ? 'rounded-b-xl border-b' : ''}
-                `}
+                className="
+                  flex
+                  items-center
+                  gap-3
+
+                  mb-2
+                "
               >
 
-                <img
-                  src={image}
-                  alt={`${project.title} - ${index + 1}`}
-                  className="block w-full h-auto object-contain transition-transform duration-500 group-hover:scale-[1.01]"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                  }}
+                <span
+                  className="
+                    font-display
+
+                    text-2xl
+
+                    font-extrabold
+
+                    text-crimson
+
+                    leading-none
+                  "
+                >
+                  {project.number}
+                </span>
+
+                <span
+                  className="
+                    text-[9px]
+                    sm:text-[10px]
+
+                    font-bold
+
+                    tracking-[0.2em]
+
+                    text-slate-500
+
+                    uppercase
+                  "
+                >
+                  {project.category}
+                </span>
+
+              </div>
+
+
+              <h2
+                className="
+                  font-display
+
+                  text-3xl
+                  sm:text-4xl
+                  md:text-5xl
+
+                  font-extrabold
+
+                  tracking-tight
+
+                  text-white
+
+                  uppercase
+
+                  leading-[0.95]
+                "
+              >
+                {project.title}
+              </h2>
+
+
+              {/* RED ACCENT */}
+
+              <div
+                className="
+                  mt-4
+
+                  flex
+                  items-center
+                  gap-2
+                "
+              >
+
+                <div
+                  className="
+                    w-12
+                    h-1
+
+                    bg-crimson
+
+                    rounded-full
+                  "
+                />
+
+                <div
+                  className="
+                    w-2
+                    h-1
+
+                    bg-crimson/30
+
+                    rounded-full
+                  "
                 />
 
               </div>
 
-            ))}
-
-          </div>
-
-
-          {/* NO IMAGE MESSAGE */}
-          {projectImages.length === 0 && (
-            <div className="py-20 text-center border border-[#292929] rounded-xl">
-
-              <p className="text-sm text-slate-500">
-                No project images available.
-              </p>
-
             </div>
-          )}
 
 
-          {/* DIVIDER */}
-          <div className="border-t border-[#292929] my-7" />
+            {/* =================================================
+                PROJECT IMAGE GALLERY
+
+                IMPORTANT:
+                NO BORDER-T BETWEEN IMAGES
+                ================================================= */}
+
+            {projectImages.length > 0 ? (
+
+              <div
+                className="
+                  overflow-hidden
+
+                  rounded-xl
+
+                  border
+                  border-[#292929]
+
+                  bg-[#0b0b0b]
+
+                  shadow-[0_20px_70px_rgba(0,0,0,.25)]
+                "
+              >
+
+                {projectImages.map((image, index) => (
+
+                  <div
+                    key={`${image}-${index}`}
+                    className="
+                      relative
+
+                      overflow-hidden
+
+                      bg-[#101010]
+
+                      group
+
+                      animate-modal-image
+                    "
+                    style={{
+                      animationDelay:
+                        `${120 + index * 70}ms`,
+                    }}
+                  >
+
+                    {/* IMAGE */}
+
+                    <img
+                      src={image}
+                      alt={`${project.title} - ${index + 1}`}
+                      loading={
+                        index === 0
+                          ? 'eager'
+                          : 'lazy'
+                      }
+                      className="
+                        block
+
+                        w-full
+                        h-auto
+
+                        object-contain
+
+                        transition-transform
+                        duration-[1200ms]
+
+                        ease-[cubic-bezier(.22,1,.36,1)]
+
+                        group-hover:scale-[1.012]
+                      "
+                      onError={(e) => {
+
+                        if (
+                          e.currentTarget.src.endsWith(
+                            '.jpg'
+                          )
+                        ) {
+
+                          e.currentTarget.src =
+                            project.coverImage.replace(
+                              '.jpg',
+                              '.png'
+                            );
+
+                        } else {
+
+                          e.currentTarget.style.display =
+                            'none';
+
+                        }
+
+                      }}
+                    />
 
 
-          {/* PROJECT INFORMATION */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-7">
+                    {/* SUBTLE IMAGE GRADIENT */}
 
-            {/* LEFT SIDE */}
-            <div className="lg:col-span-8 space-y-5">
+                    <div
+                      className="
+                        absolute
+                        inset-0
 
-              {/* PROJECT OVERVIEW */}
-              <div>
+                        pointer-events-none
 
-                <h3 className="text-xs font-extrabold tracking-widest text-white uppercase mb-3">
-                  PROJECT OVERVIEW
-                </h3>
+                        bg-gradient-to-b
+                        from-white/[0.025]
+                        via-transparent
+                        to-black/[0.12]
 
-                <p className="text-sm leading-relaxed text-slate-400">
-                  {project.description || project.summary}
+                        opacity-70
+                      "
+                    />
+
+
+                    {/* IMAGE HIGHLIGHT */}
+
+                    <div
+                      className="
+                        absolute
+                        inset-0
+
+                        pointer-events-none
+
+                        ring-1
+                        ring-inset
+                        ring-white/[0.03]
+
+                        group-hover:ring-crimson/10
+
+                        transition-all
+                        duration-700
+                      "
+                    />
+
+                  </div>
+
+                ))}
+
+              </div>
+
+            ) : (
+
+              <div
+                className="
+                  py-20
+
+                  text-center
+
+                  border
+                  border-[#292929]
+
+                  rounded-xl
+
+                  bg-[#0d0d0d]
+                "
+              >
+
+                <p
+                  className="
+                    text-sm
+                    text-slate-500
+                  "
+                >
+                  No project images available.
                 </p>
 
               </div>
 
+            )}
 
-              {/* TOOLS */}
-              {project.tools && project.tools.length > 0 && (
+
+            {/* =================================================
+                DIVIDER
+                ================================================= */}
+
+            <div
+              className="
+                border-t
+                border-[#292929]
+
+                my-7
+                sm:my-8
+              "
+            />
+
+
+            {/* =================================================
+                PROJECT INFORMATION
+                ================================================= */}
+
+            <div
+              className="
+                grid
+
+                grid-cols-1
+                lg:grid-cols-12
+
+                gap-7
+
+                animate-modal-content
+              "
+            >
+
+              {/* LEFT */}
+
+              <div
+                className="
+                  lg:col-span-8
+
+                  space-y-6
+                "
+              >
+
+                {/* OVERVIEW */}
+
                 <div>
 
-                  <h4 className="text-[10px] font-extrabold tracking-widest text-slate-500 uppercase mb-3 flex items-center gap-2">
+                  <h3
+                    className="
+                      text-xs
 
-                    <Wrench className="w-3.5 h-3.5 text-[#e21c23]" />
+                      font-extrabold
 
-                    TOOLS & TECHNOLOGIES
+                      tracking-widest
 
-                  </h4>
+                      text-white
 
-                  <div className="flex flex-wrap gap-2">
+                      uppercase
 
-                    {project.tools.map((tool, index) => (
+                      mb-3
+                    "
+                  >
+                    PROJECT OVERVIEW
+                  </h3>
 
-                      <span
-                        key={index}
-                        className="px-2.5 py-1.5 rounded-md bg-[#111] border border-[#333] text-[9px] font-bold text-slate-300 uppercase"
+                  <p
+                    className="
+                      text-sm
+
+                      leading-relaxed
+
+                      text-slate-400
+
+                      max-w-3xl
+                    "
+                  >
+                    {project.description ||
+                      project.summary ||
+                      'Creative design project developed as part of the selected portfolio work.'}
+                  </p>
+
+                </div>
+
+
+                {/* TOOLS */}
+
+                {project.tools &&
+                  project.tools.length > 0 && (
+
+                    <div>
+
+                      <h4
+                        className="
+                          text-[10px]
+
+                          font-extrabold
+
+                          tracking-widest
+
+                          text-slate-500
+
+                          uppercase
+
+                          mb-3
+
+                          flex
+                          items-center
+                          gap-2
+                        "
                       >
-                        {tool}
-                      </span>
 
-                    ))}
+                        <Wrench
+                          className="
+                            w-3.5
+                            h-3.5
 
-                  </div>
+                            text-crimson
+                          "
+                        />
 
-                </div>
-              )}
+                        TOOLS & TECHNOLOGIES
 
-            </div>
-
-
-            {/* RIGHT SIDE INFO CARD */}
-            <div className="lg:col-span-4">
-
-              <div className="rounded-xl border border-[#292929] bg-[#0d0d0d] p-5">
-
-                {/* CLIENT */}
-                <div className="flex items-start gap-3 pb-4 border-b border-[#292929]">
-
-                  <User className="w-3.5 h-3.5 text-[#e21c23] mt-0.5" />
-
-                  <div>
-
-                    <p className="text-[8px] font-bold tracking-widest text-slate-600 uppercase">
-                      CLIENT
-                    </p>
-
-                    <p className="text-xs font-bold text-white mt-1">
-                      {project.client || 'Digital Marketing'}
-                    </p>
-
-                  </div>
-
-                </div>
+                      </h4>
 
 
-                {/* PUBLISHED DATE */}
-                <div className="flex items-start gap-3 py-4 border-b border-[#292929]">
+                      <div
+                        className="
+                          flex
+                          flex-wrap
+                          gap-2
+                        "
+                      >
 
-                  <Calendar className="w-3.5 h-3.5 text-[#e21c23] mt-0.5" />
+                        {project.tools.map(
+                          (tool, index) => (
 
-                  <div>
+                            <span
+                              key={index}
+                              className="
+                                px-2.5
+                                py-1.5
 
-                    <p className="text-[8px] font-bold tracking-widest text-slate-600 uppercase">
-                      PUBLISHED
-                    </p>
+                                rounded-md
 
-                    <p className="text-xs font-bold text-white mt-1">
-                      {project.publishedDate || '2026'}
-                    </p>
+                                bg-[#111]
 
-                  </div>
+                                border
+                                border-[#333]
 
-                </div>
+                                text-[9px]
+
+                                font-bold
+
+                                text-slate-300
+
+                                uppercase
+
+                                transition-all
+                                duration-300
+
+                                hover:border-crimson/50
+                                hover:text-white
+                              "
+                            >
+                              {tool}
+                            </span>
+
+                          )
+                        )}
+
+                      </div>
+
+                    </div>
+
+                  )}
+
+              </div>
 
 
-                {/* VIEWS */}
-                <div className="flex items-start gap-3 pt-4">
+              {/* RIGHT INFO */}
 
-                  <Eye className="w-3.5 h-3.5 text-[#e21c23] mt-0.5" />
+              <div
+                className="
+                  lg:col-span-4
+                "
+              >
 
-                  <div>
+                <div
+                  className="
+                    rounded-xl
 
-                    <p className="text-[8px] font-bold tracking-widest text-slate-600 uppercase">
-                      VIEWS
-                    </p>
+                    border
+                    border-[#292929]
 
-                    <p className="text-xs font-bold text-white mt-1">
-                      {project.views || '1.2K'}
-                    </p>
+                    bg-[#0d0d0d]
 
-                  </div>
+                    p-5
+
+                    shadow-[0_20px_60px_rgba(0,0,0,.18)]
+                  "
+                >
+
+                  <InfoRow
+                    icon={
+                      <User className="w-3.5 h-3.5" />
+                    }
+                    label="CLIENT"
+                    value={
+                      project.client ||
+                      'Digital Marketing'
+                    }
+                  />
+
+
+                  <InfoRow
+                    icon={
+                      <Calendar className="w-3.5 h-3.5" />
+                    }
+                    label="PUBLISHED"
+                    value={
+                      project.publishedDate ||
+                      '2026'
+                    }
+                    middle
+                  />
+
+
+                  <InfoRow
+                    icon={
+                      <Eye className="w-3.5 h-3.5" />
+                    }
+                    label="VIEWS"
+                    value={
+                      project.views ||
+                      '1.2K'
+                    }
+                    last
+                  />
 
                 </div>
 
@@ -276,78 +889,401 @@ export default function ProjectModal({ project, onClose, darkMode }) {
 
             </div>
 
-          </div>
 
+            {/* =================================================
+                ACTION BUTTONS
+                ================================================= */}
 
-          {/* ACTION BUTTONS */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-7">
+            <div
+              className="
+                grid
 
-            {/* APPRECIATE BUTTON */}
-            <button
-              onClick={() => setAppreciated(!appreciated)}
-              className={`
-                py-3
-                px-4
-                rounded-lg
-                border
-                text-[10px]
-                font-extrabold
-                tracking-widest
-                uppercase
-                flex
-                items-center
-                justify-center
+                grid-cols-1
+                sm:grid-cols-2
+
                 gap-2
-                transition-all
-                ${
-                  appreciated
-                    ? 'bg-[#e21c23] border-[#e21c23] text-white'
-                    : 'bg-[#111] border-[#333] text-slate-300 hover:border-[#e21c23] hover:text-white'
-                }
-              `}
+
+                mt-7
+
+                animate-modal-content
+              "
+              style={{
+                animationDelay: '150ms',
+              }}
             >
 
-              <ThumbsUp
-                className={`w-3.5 h-3.5 ${
-                  appreciated ? 'fill-current' : ''
-                }`}
-              />
+              {/* APPRECIATE */}
 
-              {appreciated
-                ? `APPRECIATED (${appreciationsCount})`
-                : `APPRECIATE PROJECT (${appreciationsCount})`}
+              <button
+                type="button"
+                onClick={() =>
+                  setAppreciated(!appreciated)
+                }
+                className={`
+                  py-3
+                  px-4
 
+                  rounded-lg
+
+                  border
+
+                  text-[10px]
+
+                  font-extrabold
+
+                  tracking-widest
+
+                  uppercase
+
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
+
+                  transition-all
+                  duration-300
+
+                  ${
+                    appreciated
+                      ? `
+                        bg-crimson
+                        border-crimson
+                        text-white
+                        shadow-[0_10px_30px_rgba(197,5,15,.18)]
+                      `
+                      : `
+                        bg-[#111]
+                        border-[#333]
+                        text-slate-300
+
+                        hover:border-crimson
+                        hover:text-white
+                        hover:bg-[#151515]
+                      `
+                  }
+                `}
+              >
+
+                <ThumbsUp
+                  className={`
+                    w-3.5
+                    h-3.5
+
+                    transition-transform
+                    duration-300
+
+                    ${
+                      appreciated
+                        ? 'fill-current scale-110'
+                        : ''
+                    }
+                  `}
+                />
+
+                {appreciated
+                  ? `APPRECIATED (${appreciationsCount})`
+                  : `APPRECIATE PROJECT (${appreciationsCount})`}
+
+              </button>
+
+
+              {/* BEHANCE */}
+
+              <a
+                href={
+                  project.behanceLink ||
+                  profileData.behanceUrl
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
+                  py-3
+                  px-4
+
+                  rounded-lg
+
+                  bg-crimson
+
+                  border
+                  border-crimson
+
+                  text-white
+
+                  text-[10px]
+
+                  font-extrabold
+
+                  tracking-widest
+
+                  uppercase
+
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
+
+                  hover:bg-[#ff252d]
+
+                  hover:-translate-y-0.5
+
+                  hover:shadow-[0_12px_30px_rgba(197,5,15,.2)]
+
+                  transition-all
+                  duration-300
+                "
+              >
+
+                <span>
+                  VIEW PROJECT ON BEHANCE
+                </span>
+
+                <ExternalLink
+                  className="
+                    w-3.5
+                    h-3.5
+                  "
+                />
+
+              </a>
+
+            </div>
+
+
+            {/* =================================================
+                BOTTOM BACK
+                ================================================= */}
+
+            <button
+              type="button"
+              onClick={handleClose}
+              className="
+                block
+
+                mx-auto
+
+                mt-7
+                pb-6
+
+                text-[8px]
+
+                font-bold
+
+                tracking-[0.2em]
+
+                text-slate-600
+
+                hover:text-crimson
+
+                uppercase
+
+                transition-colors
+              "
+            >
+              ← BACK TO SELECTED PROJECTS
             </button>
 
-
-            {/* BEHANCE BUTTON */}
-            <a
-              href={project.behanceLink || profileData.behanceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-3 px-4 rounded-lg bg-[#e21c23] border border-[#e21c23] text-white text-[10px] font-extrabold tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-[#ff252d] transition-all"
-            >
-
-              <span>
-                VIEW PROJECT ON BEHANCE
-              </span>
-
-              <ExternalLink className="w-3.5 h-3.5" />
-
-            </a>
-
           </div>
 
-
-          {/* BOTTOM BACK BUTTON */}
-          <button
-            onClick={onClose}
-            className="block mx-auto mt-6 text-[8px] font-bold tracking-[0.2em] text-slate-600 hover:text-[#e21c23] uppercase transition-colors"
-          >
-            ← BACK TO SELECTED PROJECTS
-          </button>
-
         </div>
+
+      </div>
+
+
+      {/* =====================================================
+          ANIMATIONS
+          ===================================================== */}
+
+      <style>{`
+
+        @keyframes modal-header-in {
+          from {
+            opacity: 0;
+            transform: translateY(18px);
+            filter: blur(6px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+          }
+        }
+
+
+        @keyframes modal-image-in {
+          from {
+            opacity: 0;
+            transform: translateY(18px) scale(.985);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+
+        @keyframes modal-content-in {
+          from {
+            opacity: 0;
+            transform: translateY(14px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+
+        .animate-modal-header {
+          animation:
+            modal-header-in
+            .75s
+            cubic-bezier(.22,1,.36,1)
+            both;
+        }
+
+
+        .animate-modal-image {
+          animation:
+            modal-image-in
+            .8s
+            cubic-bezier(.22,1,.36,1)
+            both;
+        }
+
+
+        .animate-modal-content {
+          animation:
+            modal-content-in
+            .7s
+            cubic-bezier(.22,1,.36,1)
+            both;
+        }
+
+
+        @media (max-width: 640px) {
+
+          .animate-modal-image {
+            animation-duration: .65s;
+          }
+
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+
+          .animate-modal-header,
+          .animate-modal-image,
+          .animate-modal-content {
+            animation: none !important;
+          }
+
+        }
+
+
+        /* =================================================
+           CUSTOM SCROLLBAR
+           ================================================= */
+
+        .project-modal-scroll::-webkit-scrollbar {
+          width: 5px;
+        }
+
+        .project-modal-scroll::-webkit-scrollbar-track {
+          background: #0a0a0a;
+        }
+
+        .project-modal-scroll::-webkit-scrollbar-thumb {
+          background: #292929;
+          border-radius: 999px;
+        }
+
+        .project-modal-scroll::-webkit-scrollbar-thumb:hover {
+          background: #444;
+        }
+
+      `}</style>
+
+    </div>
+  );
+}
+
+
+/* ============================================================
+   INFO ROW
+   ============================================================ */
+
+function InfoRow({
+  icon,
+  label,
+  value,
+  middle = false,
+  last = false,
+}) {
+  return (
+    <div
+      className={`
+        flex
+        items-start
+        gap-3
+
+        ${
+          middle
+            ? 'py-4 border-y border-[#292929]'
+            : last
+              ? 'pt-4'
+              : 'pb-4 border-b border-[#292929]'
+        }
+      `}
+    >
+
+      <div
+        className="
+          text-crimson
+
+          mt-0.5
+
+          shrink-0
+        "
+      >
+        {icon}
+      </div>
+
+
+      <div>
+
+        <p
+          className="
+            text-[8px]
+
+            font-bold
+
+            tracking-widest
+
+            text-slate-600
+
+            uppercase
+          "
+        >
+          {label}
+        </p>
+
+
+        <p
+          className="
+            text-xs
+
+            font-bold
+
+            text-white
+
+            mt-1
+          "
+        >
+          {value}
+        </p>
 
       </div>
 
