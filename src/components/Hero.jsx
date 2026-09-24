@@ -42,12 +42,6 @@ export default function Hero() {
     let fadeTarget = 0;
     let currentFade = 0;
 
-    /*
-      ==========================================================
-      POINTER PARALLAX
-      ==========================================================
-    */
-
     const updatePointer = (event) => {
       const rect = hero.getBoundingClientRect();
 
@@ -67,12 +61,6 @@ export default function Hero() {
       targetX = 0;
       targetY = 0;
     };
-
-    /*
-      ==========================================================
-      SCROLL PROGRESS
-      ==========================================================
-    */
 
     const updateScrollTarget = () => {
       const rect = hero.getBoundingClientRect();
@@ -99,12 +87,6 @@ export default function Hero() {
         Math.min(1, fadeProgress)
       );
     };
-
-    /*
-      ==========================================================
-      ANIMATION LOOP
-      ==========================================================
-    */
 
     const animate = () => {
       currentX +=
@@ -228,6 +210,7 @@ export default function Hero() {
 
       {/* =====================================================
           BANNER MODE TOGGLE
+          DESKTOP ONLY
           ===================================================== */}
 
       <div
@@ -252,32 +235,21 @@ export default function Hero() {
             inline-flex
             items-center
             gap-2.5
-
             px-4
             py-2
-
             rounded-full
-
             bg-[#121212]
-
             border
             border-[#333333]
-
             text-[11px]
             font-extrabold
             tracking-wider
-
             text-slate-200
-
             hover:text-white
             hover:border-crimson
-
             transition-all
-
             shadow-2xl
-
             backdrop-blur-md
-
             hover:scale-105
             active:scale-95
           "
@@ -334,6 +306,28 @@ export default function Hero() {
               group
             "
           >
+
+            {/* =================================================
+                MOBILE SOLID BANNER TOGGLE
+                ================================================= */}
+
+            <button
+              type="button"
+              onClick={() =>
+                setUseSolidBanner(!useSolidBanner)
+              }
+              className="
+                erl-mobile-banner-toggle
+                erl-mobile-banner-toggle-solid
+              "
+            >
+              <Play className="w-3.5 h-3.5 text-crimson" />
+
+              <span>
+                A SHORT VIDEO INTRODUCTION ABOUT ME
+              </span>
+            </button>
+
 
             <img
               src={profileData.heroBannerImage}
@@ -426,13 +420,9 @@ export default function Hero() {
               items-center
               justify-between
               gap-4
-
               p-4
-
               rounded-xl
-
               bg-[#121212]
-
               border
               border-[#222]
             "
@@ -492,21 +482,15 @@ export default function Hero() {
                 className="
                   px-5
                   py-2.5
-
                   rounded-xl
-
                   bg-crimson
                   hover:bg-crimson-dark
-
                   text-white
-
                   font-extrabold
                   text-xs
                   tracking-widest
                   uppercase
-
                   transition-all
-
                   flex
                   items-center
                   gap-2
@@ -525,24 +509,17 @@ export default function Hero() {
                 className="
                   px-5
                   py-2.5
-
                   rounded-xl
-
                   bg-[#1A1A1A]
                   hover:bg-[#252525]
-
                   border
                   border-[#333]
-
                   text-slate-200
-
                   font-extrabold
                   text-xs
                   tracking-widest
                   uppercase
-
                   transition-all
-
                   flex
                   items-center
                   gap-2
@@ -570,19 +547,13 @@ export default function Hero() {
                 rel="noopener noreferrer"
                 className="
                   p-2.5
-
                   rounded-xl
-
                   bg-[#1A1A1A]
                   hover:bg-[#252525]
-
                   border
                   border-[#333]
-
                   text-slate-300
-
                   hover:text-crimson
-
                   transition-all
                 "
                 title="View Behance Profile"
@@ -606,7 +577,6 @@ export default function Hero() {
 
           {/* =================================================
               MOBILE PROJECT THUMBNAIL MARQUEE
-              Desktop is intentionally untouched.
               ================================================= */}
 
           <div
@@ -614,42 +584,61 @@ export default function Hero() {
             aria-label="Selected project previews"
           >
             <div className="erl-mobile-project-track">
+
               {[0, 1].map((copyIndex) => (
+
                 <div
                   className="erl-mobile-project-set"
                   key={copyIndex}
                   aria-hidden={copyIndex === 1}
                 >
+
                   {profileData.selectedProjects
                     .slice(0, 5)
                     .map((project) => (
+
                       <div
                         className="erl-mobile-project-thumb"
                         key={`${copyIndex}-${project.id}`}
                       >
+
                         <img
                           src={project.coverImage}
-                          alt={copyIndex === 0 ? project.title : ''}
+                          alt={
+                            copyIndex === 0
+                              ? project.title
+                              : ''
+                          }
                           loading="eager"
                           draggable="false"
                           onError={(e) => {
+
                             if (
                               e.currentTarget.src.endsWith('.jpg')
                             ) {
+
                               e.currentTarget.src =
                                 project.coverImage.replace(
                                   '.jpg',
                                   '.png'
                                 );
+
                             }
+
                           }}
                         />
+
                       </div>
+
                     ))}
+
                 </div>
+
               ))}
+
             </div>
           </div>
+
 
           {/* =================================================
               GIANT PORTFOLIO
@@ -659,23 +648,16 @@ export default function Hero() {
             className="
               erl-portfolio
               absolute
-
               top-[70px]
               sm:top-[10px]
-
               left-0
               right-0
-
               w-full
-
               flex
               justify-center
-
               pointer-events-none
               select-none
-
               overflow-hidden
-
               z-0
             "
           >
@@ -686,28 +668,20 @@ export default function Hero() {
               }}
               className="
                 erl-portfolio-text
-
                 font-display
                 font-normal
-
                 text-[63vw]
                 sm:text-[25vw]
-
                 leading-normal
                 tracking-normal
-
                 bg-gradient-to-b
                 from-[#c5050f]
                 via-[#250002]
                 to-[#050505]
-
                 bg-clip-text
                 text-transparent
-
                 uppercase
-
                 opacity-90
-
                 whitespace-nowrap
               "
             >
@@ -727,7 +701,6 @@ export default function Hero() {
               mx-auto
               px-6
               sm:px-12
-
               relative
               z-10
             "
@@ -738,11 +711,8 @@ export default function Hero() {
                 grid
                 grid-cols-1
                 lg:grid-cols-12
-
                 gap-8
-
                 items-center
-
                 pt-2
                 md:pt-6
               "
@@ -755,13 +725,9 @@ export default function Hero() {
               <div
                 className="
                   erl-hero-copy
-
                   lg:col-span-4
-
                   space-y-5
-
                   text-left
-
                   order-2
                   lg:order-1
                 "
@@ -771,13 +737,10 @@ export default function Hero() {
                   className="
                     erl-hero-item
                     erl-delay-1
-
                     font-script
                     text-3xl
                     sm:text-4xl
-
                     text-slate-300
-
                     transform
                     -rotate-3
                   "
@@ -796,20 +759,14 @@ export default function Hero() {
                   <h2
                     className="
                       font-display
-
                       text-6xl
                       sm:text-7xl
                       lg:text-8xl
-
                       font-extrabold
-
                       tracking-[0.02em]
-
                       text-white
-
                       leading-normal
                       lg:leading-[0.8]
-
                       uppercase
                     "
                   >
@@ -820,16 +777,11 @@ export default function Hero() {
                   <p
                     className="
                       font-bold
-
                       text-sm
                       sm:text-base
-
                       tracking-widest
-
                       text-crimson
-
                       uppercase
-
                       mt-3
                     "
                   >
@@ -843,16 +795,11 @@ export default function Hero() {
                   className="
                     erl-hero-item
                     erl-delay-3
-
                     text-xs
                     sm:text-sm
-
                     text-slate-400
-
                     leading-relaxed
-
                     max-w-sm
-
                     font-normal
                   "
                 >
@@ -866,14 +813,10 @@ export default function Hero() {
                   className="
                     erl-hero-item
                     erl-delay-4
-
                     pt-2
-
                     flex
                     flex-wrap
-
                     items-center
-
                     gap-3
                   "
                 >
@@ -883,32 +826,20 @@ export default function Hero() {
                     className="
                       px-5
                       py-3
-
                       rounded-xl
-
                       bg-crimson
                       hover:bg-crimson-dark
-
                       text-white
-
                       font-extrabold
-
                       text-xs
-
                       tracking-widest
-
                       uppercase
-
                       transition-all
                       duration-300
-
                       shadow-lg
                       shadow-crimson/25
-
                       hover:shadow-crimson/40
-
                       hover:-translate-y-0.5
-
                       flex
                       items-center
                       gap-2
@@ -927,30 +858,19 @@ export default function Hero() {
                     className="
                       px-5
                       py-3
-
                       rounded-xl
-
                       bg-[#181818]
                       hover:bg-[#222222]
-
                       border
                       border-[#333333]
-
                       text-slate-200
-
                       font-extrabold
-
                       text-xs
-
                       tracking-widest
-
                       uppercase
-
                       transition-all
                       duration-300
-
                       hover:-translate-y-0.5
-
                       flex
                       items-center
                       gap-2
@@ -978,19 +898,13 @@ export default function Hero() {
                     rel="noopener noreferrer"
                     className="
                       p-3
-
                       rounded-xl
-
                       bg-[#181818]
                       hover:bg-[#222222]
-
                       border
                       border-[#333333]
-
                       text-slate-300
-
                       hover:text-crimson
-
                       transition-all
                     "
                     title="View Behance Profile"
@@ -1007,7 +921,6 @@ export default function Hero() {
                   className="
                     erl-hero-item
                     erl-delay-5
-
                     pt-1
                   "
                 >
@@ -1016,29 +929,19 @@ export default function Hero() {
                     href="#contact"
                     className="
                       inline-flex
-
                       items-center
                       gap-2
-
                       px-3.5
                       py-1.5
-
                       rounded-full
-
                       bg-[#141414]
-
                       border
                       border-[#262626]
-
                       text-xs
-
                       font-bold
-
                       text-slate-300
-
                       hover:border-crimson
                       hover:text-white
-
                       transition-colors
                     "
                   >
@@ -1073,25 +976,39 @@ export default function Hero() {
               <div
                 className="
                   erl-portrait-wrap
-
                   lg:col-span-5
-
                   flex
                   justify-center
-
                   order-1
                   lg:order-2
-
                   relative
                 "
               >
 
+                {/* =================================================
+                    MOBILE BANNER MODE TOGGLE
+                    INTERACTIVE MODE
+                    ================================================= */}
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setUseSolidBanner(!useSolidBanner)
+                  }
+                  className="erl-mobile-banner-toggle"
+                >
+                  <ImageIcon className="w-3.5 h-3.5 text-crimson" />
+
+                  <span>
+                    GET TO KNOW ME
+                  </span>
+                </button>
+
+
                 <div
                   className="
                     relative
-
                     w-full
-
                     max-w-md
                   "
                 >
@@ -1101,16 +1018,11 @@ export default function Hero() {
                   <div
                     className="
                       erl-ambient
-
                       absolute
                       inset-0
-
                       bg-[#170405]/30
-
                       rounded-full
-
                       blur-[100px]
-
                       pointer-events-none
                     "
                   />
@@ -1121,19 +1033,13 @@ export default function Hero() {
                   <div
                     className="
                       erl-portrait
-
                       relative
-
                       flex
                       justify-center
                       items-center
-
                       bg-transparent
-
                       p-0
-
                       border-0
-
                       shadow-none
                     "
                   >
@@ -1143,49 +1049,20 @@ export default function Hero() {
                       alt={profileData.name}
                       className="
                         w-full
-
                         h-[440px]
                         sm:h-[490px]
-
                         object-contain
                         object-center
-
                         filter
                         drop-shadow-[0_20px_35px_rgba(0,0,0,0.8)]
-
                         hover:scale-105
-
                         transition-transform
                         duration-700
-
                         bg-transparent
                       "
                     />
 
                   </div>
-
-
-                  {/* MOBILE GET TO KNOW ME BUTTON */}
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setUseSolidBanner(!useSolidBanner)
-                    }
-                    className="erl-mobile-banner-toggle"
-                  >
-                    {useSolidBanner ? (
-                      <>
-                        <Play className="w-3.5 h-3.5 text-crimson" />
-                        <span>A SHORT VIDEO INTRODUCTION</span>
-                      </>
-                    ) : (
-                      <>
-                        <ImageIcon className="w-3.5 h-3.5 text-crimson" />
-                        <span>GET TO KNOW ME</span>
-                      </>
-                    )}
-                  </button>
 
 
                   {/* FLOATING BADGE */}
@@ -1195,28 +1072,19 @@ export default function Hero() {
                     className="
                       erl-badge
                       erl-glass-card
-
                       absolute
-
                       bottom-6
                       -right-4
                       sm:-right-8
-
                       max-w-[210px]
-
                       p-3.5
-
                       rounded-xl
-
                       flex
                       items-start
                       gap-2.5
-
                       transition-all
-
                       group
                       hover:-translate-y-1
-
                       z-20
                     "
                   >
@@ -1224,20 +1092,14 @@ export default function Hero() {
                     <div
                       className="
                         erl-badge-icon
-
                         w-6
                         h-6
-
                         rounded-full
-
                         flex
                         items-center
                         justify-center
-
                         shrink-0
-
                         mt-0.5
-
                         transition-colors
                       "
                     >
@@ -1250,15 +1112,10 @@ export default function Hero() {
                     <p
                       className="
                         text-[11px]
-
                         text-slate-300
-
                         group-hover:text-white
-
                         leading-tight
-
                         font-medium
-
                         transition-colors
                       "
                     >
@@ -1279,17 +1136,12 @@ export default function Hero() {
               <div
                 className="
                   lg:col-span-3
-
                   space-y-6
-
                   order-3
-
                   flex
                   flex-col
                   justify-center
-
                   lg:items-end
-
                   text-left
                   lg:text-right
                 "
@@ -1299,15 +1151,10 @@ export default function Hero() {
                   className="
                     erl-stats
                     erl-glass-panel
-
                     space-y-6
-
                     p-6
-
                     rounded-2xl
-
                     w-full
-
                     max-w-xs
                   "
                 >
@@ -1318,12 +1165,9 @@ export default function Hero() {
                         key={idx}
                         className="
                           erl-stat-row
-
                           border-b
                           border-white/[0.07]
-
                           last:border-0
-
                           pb-4
                           last:pb-0
                         "
@@ -1332,16 +1176,11 @@ export default function Hero() {
                         <div
                           className="
                             font-display
-
                             text-4xl
                             sm:text-5xl
-
                             font-extrabold
-
                             text-white
-
                             tracking-tight
-
                             erl-stat-value
                           "
                         >
@@ -1351,15 +1190,10 @@ export default function Hero() {
                         <div
                           className="
                             text-[10px]
-
                             font-extrabold
-
                             tracking-widest
-
                             text-slate-400
-
                             uppercase
-
                             mt-0.5
                           "
                         >
@@ -1982,7 +1816,7 @@ export default function Hero() {
               calc(var(--mx) * 5px),
               calc(
                 var(--my) * 3px +
-                var(--scroll-progress) * -34px
+                (var(--scroll-progress) * -34px)
               ),
               0
             );
@@ -2445,17 +2279,9 @@ export default function Hero() {
 
         @media (max-width: 640px) {
 
-          /*
-            ====================================================
-            MOBILE DESIGN CONTROLS
-            Based on the supplied 393px mobile reference.
-            Desktop styles are untouched.
-            ====================================================
-          */
-
           .erl-hero {
-            --mobile-thumb-width: 112px;
-            --mobile-thumb-height: 88px;
+            --mobile-thumb-width: 140px;
+            --mobile-thumb-height: 105px;
             --mobile-thumb-gap: 10px;
           }
 
@@ -2473,56 +2299,71 @@ export default function Hero() {
             display: block;
             width: 100%;
             overflow: hidden;
-            padding: 0 0 11px;
+            padding: 0 0 1px;
             margin: -1px 0 1px;
             position: relative;
             z-index: 30;
             isolation: isolate;
           }
 
-          /* Soft black vignette on both edges of the mobile marquee.
-             Mobile-only: desktop layout remains untouched. */
+
           .erl-mobile-project-marquee::before,
           .erl-mobile-project-marquee::after {
             content: '';
             position: absolute;
             top: 0;
-            bottom: 12px;
-            width: 54px;
+            bottom: 0px;
+            width: 65px;
             z-index: 3;
             pointer-events: none;
           }
 
+
           .erl-mobile-project-marquee::before {
             left: 0;
-            background: linear-gradient(
-              90deg,
-              #0A0A0A 0%,
-              rgba(10,10,10,.88) 18%,
-              rgba(10,10,10,.52) 45%,
-              rgba(10,10,10,.16) 72%,
-              rgba(10,10,10,0) 100%
-            );
+
+            background:
+              linear-gradient(
+                90deg,
+                #0A0A0A 0%,
+                rgba(10,10,10,.98) 18%,
+                rgba(10,10,10,.78) 35%,
+                rgba(10,10,10,.55) 52%,
+                rgba(10,10,10,.30) 72%,
+                rgba(10,10,10,0) 100%
+              );
           }
+
 
           .erl-mobile-project-marquee::after {
             right: 0;
-            background: linear-gradient(
-              270deg,
-              #0A0A0A 0%,
-              rgba(10,10,10,.88) 18%,
-              rgba(10,10,10,.52) 45%,
-              rgba(10,10,10,.16) 72%,
-              rgba(10,10,10,0) 100%
-            );
+
+            background:
+              linear-gradient(
+                270deg,
+                #0A0A0A 0%,
+                rgba(10,10,10,.98) 18%,
+                rgba(10,10,10,.78) 35%,
+                rgba(10,10,10,.55) 52%,
+                rgba(10,10,10,.30) 72%,
+                rgba(10,10,10,0) 100%
+              );
           }
+
 
           .erl-mobile-project-track {
             display: flex;
             width: max-content;
-            animation: erl-mobile-project-marquee 18s linear infinite;
+
+            animation:
+              erl-mobile-project-marquee
+              18s
+              linear
+              infinite;
+
             will-change: transform;
           }
+
 
           .erl-mobile-project-set {
             display: flex;
@@ -2531,143 +2372,223 @@ export default function Hero() {
             padding-right: var(--mobile-thumb-gap);
           }
 
+
           .erl-mobile-project-thumb {
             flex: 0 0 var(--mobile-thumb-width);
+
             width: var(--mobile-thumb-width);
             height: var(--mobile-thumb-height);
+
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,.08);
+
+            border:
+              1px solid
+              rgba(255,255,255,.08);
+
             border-radius: 6px;
+
             background: #111;
-            box-shadow: 0 12px 28px rgba(0,0,0,.28);
+
+            box-shadow:
+              0 12px 28px
+              rgba(0,0,0,.28);
           }
+
 
           .erl-mobile-project-thumb img {
             display: block;
+
             width: 100%;
             height: 100%;
+
             object-fit: cover;
+
             opacity: .82;
+
             transform: scale(1.02);
           }
 
+
+          /* ====================================================
+             MOBILE BANNER TOGGLE
+             ==================================================== */
+
           .erl-mobile-banner-toggle {
             display: inline-flex;
+
             align-items: center;
             justify-content: center;
+
             gap: 8px;
+
             position: absolute;
+
             right: 0;
             bottom: 18px;
+
             z-index: 35;
+
             min-height: 36px;
+
             padding: 0 14px;
-            border: 1px solid rgba(255,255,255,.18);
+
+            border:
+              1px solid
+              rgba(255,255,255,.18);
+
             border-radius: 999px;
-            background: rgba(18,18,18,.92);
+
+            background:
+              rgba(18,18,18,.92);
+
             color: #e5e7eb;
+
             font-size: 10px;
+
             font-weight: 800;
+
             letter-spacing: .08em;
+
             text-transform: uppercase;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 8px 26px rgba(0,0,0,.42);
+
+            backdrop-filter:
+              blur(12px);
+
+            -webkit-backdrop-filter:
+              blur(12px);
+
+            box-shadow:
+              0 8px 26px
+              rgba(0,0,0,.42);
           }
+
+
+          /* ====================================================
+             SOLID BANNER MODE BUTTON POSITION
+             ==================================================== */
+
+          .erl-mobile-banner-toggle-solid {
+            right: 12px;
+            top: 12px;
+            bottom: auto;
+          }
+
 
           .erl-mobile-banner-toggle::before {
             content: '';
+
             position: absolute;
-            inset: 50% auto auto 50%;
-            width: 116px;
-            height: 116px;
-            transform: translate(-50%, -50%);
+
+            inset:
+              100% auto auto 150%;
+
+            width: 500px;
+            height: 500px;
+
+            transform:
+              translate(-50%, -50%);
+
             border-radius: 999px;
-            background: radial-gradient(
-              circle,
-              rgba(197,5,15,.55) 0%,
-              rgba(197,5,15,.24) 38%,
-              rgba(197,5,15,0) 72%
-            );
-            filter: blur(16px);
+
+            background:
+              radial-gradient(
+                circle,
+                rgba(197,5,15,.55) 0%,
+                rgba(197,5,15,.24) 38%,
+                rgba(197,5,15,0) 85%
+              );
+
+            filter:
+              blur(16px);
+
             opacity: .65;
+
             z-index: -1;
+
             pointer-events: none;
-            animation: erl-mobile-button-glow 2.8s ease-in-out infinite;
+
+            animation:
+              erl-mobile-button-glow
+              2.8s
+              ease-in-out
+              infinite;
           }
+
 
           .erl-mobile-banner-toggle > * {
             position: relative;
             z-index: 1;
           }
 
+
           .erl-mobile-banner-toggle:active {
             transform: scale(.97);
           }
 
+
           @keyframes erl-mobile-project-marquee {
+
             from {
-              transform: translate3d(0, 0, 0);
+              transform:
+                translate3d(
+                  0,
+                  0,
+                  0
+                );
             }
+
             to {
-              transform: translate3d(-50%, 0, 0);
+              transform:
+                translate3d(
+                  -50%,
+                  0,
+                  0
+                );
             }
+
           }
 
+
           @keyframes erl-mobile-button-glow {
+
             0%,
             100% {
               opacity: .48;
-              transform: translate(-50%, -50%) scale(.9);
+
+              transform:
+                translate(-50%, -50%)
+                scale(.9);
             }
+
             50% {
               opacity: .82;
-              transform: translate(-50%, -50%) scale(1.08);
+
+              transform:
+                translate(-50%, -50%)
+                scale(1.08);
             }
+
           }
 
-          /*
-            ====================================================
-            IMPORTANT MOBILE TYPOGRAPHY FIX
 
-            The original .space-y-5 on .erl-hero-copy creates
-            too much vertical space between:
-
-            HELLO, I'M
-            ERLAN VILLANIA
-
-            We override that spacing ONLY on mobile.
-            ====================================================
-          */
+          /* ====================================================
+             MOBILE TYPOGRAPHY
+             ==================================================== */
 
           .erl-hero-copy {
             gap: 0 !important;
           }
 
 
-          /*
-            Greeting
-          */
-
           .erl-hero-copy > .erl-delay-1 {
             margin-bottom: 0 !important;
           }
 
 
-          /*
-            Name block:
-            bring ERLAN VILLANIA closer to HELLO, I'M
-          */
-
           .erl-hero-copy > .erl-delay-2 {
             margin-top: 7px !important;
           }
 
-
-          /*
-            Name itself:
-            tighter line box on mobile only
-          */
 
           .erl-hero-copy h2 {
             line-height: 0.9 !important;
@@ -2678,23 +2599,12 @@ export default function Hero() {
           }
 
 
-          /*
-            Subtitle:
-            slightly closer to name
-          */
-
           .erl-hero-copy h2 + p {
             margin-top: 9px !important;
 
             line-height: 1.2;
           }
 
-
-          /*
-            Tagline:
-            keep some breathing room,
-            but don't create another huge gap
-          */
 
           .erl-hero-copy > .erl-delay-3 {
             margin-top: 14px !important;
@@ -2703,27 +2613,15 @@ export default function Hero() {
           }
 
 
-          /*
-            Buttons
-          */
-
           .erl-hero-copy > .erl-delay-4 {
             margin-top: 15px !important;
           }
 
 
-          /*
-            Location
-          */
-
           .erl-hero-copy > .erl-delay-5 {
             margin-top: 12px !important;
           }
 
-
-          /*
-            Glass panels
-          */
 
           .erl-glass-panel,
           .erl-glass-card {
@@ -2746,10 +2644,6 @@ export default function Hero() {
           }
 
 
-          /*
-            Light sweep
-          */
-
           .erl-light-sweep {
 
             width: 38%;
@@ -2761,21 +2655,14 @@ export default function Hero() {
           }
 
 
-          /*
-            Noise
-          */
-
           .erl-noise {
             opacity: .022;
           }
 
 
-          /*
-            Portfolio background
-          */
-
           .erl-portfolio {
-            top: 105px;
+
+            top: 90px;
 
             transform:
               translate3d(
@@ -2812,11 +2699,8 @@ export default function Hero() {
           }
 
 
-          /*
-            Hero copy parallax
-          */
-
           .erl-hero-copy {
+
             transform:
               translate3d(
                 calc(var(--mx) * -1px),
@@ -2832,11 +2716,8 @@ export default function Hero() {
           }
 
 
-          /*
-            Main name size
-          */
-
           .erl-hero-copy h2 {
+
             font-size:
               clamp(
                 3.4rem,
@@ -2846,11 +2727,8 @@ export default function Hero() {
           }
 
 
-          /*
-            Portrait
-          */
-
           .erl-portrait-wrap {
+
             transform:
               translate3d(
                 calc(var(--mx) * 2px),
@@ -2873,6 +2751,7 @@ export default function Hero() {
 
 
           .erl-portrait img {
+
             height: 360px;
 
             max-height: 58vh;
@@ -2884,11 +2763,8 @@ export default function Hero() {
           }
 
 
-          /*
-            Ambient glow
-          */
-
           .erl-ambient {
+
             transform:
               translate3d(
                 calc(var(--mx) * -2px),
@@ -2931,10 +2807,6 @@ export default function Hero() {
           }
 
 
-          /*
-            Floating badge
-          */
-
           .erl-badge {
 
             right: 2px;
@@ -2950,7 +2822,7 @@ export default function Hero() {
                 calc(var(--mx) * 2px),
                 calc(
                   var(--my) * 2px +
-                  var(--scroll-progress) * -12px
+                  (var(--scroll-progress) * -12px)
                 ),
                 0
               );
@@ -2967,10 +2839,6 @@ export default function Hero() {
           }
 
 
-          /*
-            Stats
-          */
-
           .erl-stats {
 
             width: 100%;
@@ -2984,7 +2852,7 @@ export default function Hero() {
                 calc(var(--mx) * 1px),
                 calc(
                   var(--my) * 1px +
-                  var(--scroll-progress) * -10px
+                  (var(--scroll-progress) * -10px)
                 ),
                 0
               );
@@ -3004,62 +2872,14 @@ export default function Hero() {
           }
 
 
-          /*
-            Mobile glass
-          */
-
-          .erl-glass-panel,
-          .erl-glass-card {
-
-            backdrop-filter:
-              blur(16px)
-              saturate(118%);
-
-            -webkit-backdrop-filter:
-              blur(16px)
-              saturate(118%);
-
-            box-shadow:
-              inset
-              0 1px 0
-              rgba(255,255,255,.065),
-
-              0 18px 45px
-              rgba(0,0,0,.28);
-          }
-
-
-          /*
-            Mobile sweep
-          */
-
-          .erl-light-sweep {
-            width: 38%;
-
-            filter:
-              blur(20px);
-
-            opacity: .55;
-          }
-
-
-          .erl-noise {
-            opacity: .018;
-          }
-
-
-          /*
-            Remove hover behavior that isn't useful
-            on touch devices
-          */
-
           .erl-portrait img:hover {
 
             transform: none;
 
             filter:
               drop-shadow(
-                0 20px 35px rgba(0,0,0,.8)
+                0 20px 35px
+                rgba(0,0,0,.8)
               );
           }
 
@@ -3070,10 +2890,6 @@ export default function Hero() {
             left: -65%;
           }
 
-
-          /*
-            Mobile ambient animation
-          */
 
           @keyframes erl-ambient-mobile {
 
@@ -3087,7 +2903,7 @@ export default function Hero() {
                   calc(var(--mx) * -2px),
                   calc(
                     var(--my) * -2px +
-                    var(--scroll-progress) * -8px
+                    (var(--scroll-progress) * -8px)
                   ),
                   0
                 )
@@ -3104,7 +2920,7 @@ export default function Hero() {
                   calc(var(--mx) * -2px),
                   calc(
                     var(--my) * -2px +
-                    var(--scroll-progress) * -8px
+                    (var(--scroll-progress) * -8px)
                   ),
                   0
                 )

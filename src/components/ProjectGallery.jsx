@@ -1080,7 +1080,7 @@ export default function ProjectGallery({
         @media (max-width: 767px) {
 
           .project-gallery {
-            padding-top: 4.5rem;
+            padding-top: 0px;
             padding-bottom: 4.5rem;
           }
 
