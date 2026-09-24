@@ -6,8 +6,13 @@ function ProjectCard({ project, index, onSelectProject }) {
   const cardRef = useRef(null);
 
   const [visible, setVisible] = useState(false);
+  const [active, setActive] = useState(false);
   const [parallax, setParallax] = useState(0);
   const [imageScale, setImageScale] = useState(1.02);
+
+  /* =========================================
+     INITIAL SCROLL REVEAL
+     ========================================= */
 
   useEffect(() => {
     const element = cardRef.current;
@@ -32,6 +37,10 @@ function ProjectCard({ project, index, onSelectProject }) {
     return () => observer.disconnect();
   }, []);
 
+  /* =========================================
+     SCROLL / PARALLAX / ACTIVE PROJECT
+     ========================================= */
+
   useEffect(() => {
     let ticking = false;
 
@@ -39,29 +48,6 @@ function ProjectCard({ project, index, onSelectProject }) {
       const element = cardRef.current;
 
       if (!element) {
-        ticking = false;
-        return;
-      }
-
-      if (window.innerWidth < 768) {
-        const rect = element.getBoundingClientRect();
-
-        const viewportCenter = window.innerHeight / 2;
-
-        const elementCenter =
-          rect.top + rect.height / 2;
-
-        const distance =
-          elementCenter - viewportCenter;
-
-        const mobileMovement = Math.max(
-          -5,
-          Math.min(5, distance * -0.008)
-        );
-
-        setParallax(mobileMovement);
-        setImageScale(1.03);
-
         ticking = false;
         return;
       }
@@ -77,6 +63,57 @@ function ProjectCard({ project, index, onSelectProject }) {
       const distance =
         elementCenter - viewportCenter;
 
+      /* =========================================
+         MOBILE
+         ========================================= */
+
+      if (window.innerWidth < 768) {
+        const mobileMovement = Math.max(
+          -5,
+          Math.min(5, distance * -0.008)
+        );
+
+        /*
+         * ACTIVE PROJECT
+         *
+         * Project becomes active when its center
+         * gets close to the center of the screen.
+         */
+
+        const activeRange =
+          window.innerHeight * 0.18;
+
+        const isActive =
+          Math.abs(distance) < activeRange;
+
+        setActive(isActive);
+
+        setParallax(mobileMovement);
+
+        /*
+         * Slight scale increase when active.
+         *
+         * Normal:
+         * 1.015
+         *
+         * Active:
+         * 1.025
+         */
+
+        setImageScale(
+          isActive ? 1.025 : 1.015
+        );
+
+        ticking = false;
+        return;
+      }
+
+      /* =========================================
+         DESKTOP
+         ========================================= */
+
+      setActive(false);
+
       const movement = Math.max(
         -18,
         Math.min(18, distance * -0.032)
@@ -90,8 +127,8 @@ function ProjectCard({ project, index, onSelectProject }) {
         );
 
       const scale =
-        1.075 -
-        normalizedDistance * 0.045;
+        1.045 -
+        normalizedDistance * 0.025;
 
       setParallax(movement);
       setImageScale(scale);
@@ -101,7 +138,10 @@ function ProjectCard({ project, index, onSelectProject }) {
 
     const handleScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(updateScroll);
+        window.requestAnimationFrame(
+          updateScroll
+        );
+
         ticking = true;
       }
     };
@@ -154,16 +194,20 @@ function ProjectCard({ project, index, onSelectProject }) {
             : 'opacity-0 translate-y-16'
         }
 
+        ${active ? 'project-card-active' : ''}
+
         project-card
       `}
       style={{
         transitionDelay: `${index * 120}ms`,
       }}
     >
-      {/* IMAGE */}
+      {/* =========================================
+          IMAGE
+          ========================================= */}
 
       <div
-        className="
+        className={`
           relative
 
           aspect-[16/11]
@@ -187,12 +231,22 @@ function ProjectCard({ project, index, onSelectProject }) {
           group-hover:shadow-[0_20px_60px_rgba(0,0,0,0.35)]
 
           project-image-frame
-        "
+
+          ${
+            active
+              ? 'project-image-frame-active'
+              : ''
+          }
+        `}
         style={{
           transform:
             `translateY(${parallax}px)`,
         }}
       >
+        {/* =========================================
+            THUMBNAIL IMAGE
+            ========================================= */}
+
         <img
           src={project.coverImage}
           alt={project.title}
@@ -207,14 +261,15 @@ function ProjectCard({ project, index, onSelectProject }) {
                 );
             }
           }}
-          className="
+          className={`
             absolute
-            inset-[-5%]
+            inset-0
 
-            w-[110%]
-            h-[110%]
+            w-full
+            h-full
 
             object-cover
+            object-center
 
             opacity-90
 
@@ -225,12 +280,22 @@ function ProjectCard({ project, index, onSelectProject }) {
             duration-[1100ms]
 
             ease-[cubic-bezier(0.22,1,0.36,1)]
-          "
+
+            ${
+              active
+                ? 'project-card-image-active'
+                : ''
+            }
+          `}
           style={{
             transform:
               `scale(${imageScale})`,
           }}
         />
+
+        {/* =========================================
+            DARK GRADIENT
+            ========================================= */}
 
         <div
           className="
@@ -248,8 +313,41 @@ function ProjectCard({ project, index, onSelectProject }) {
 
             transition-opacity
             duration-700
+
+            pointer-events-none
           "
         />
+
+        {/* =========================================
+            ACTIVE PROJECT AMBIENT GLOW
+            ========================================= */}
+
+        <div
+          className={`
+            absolute
+            inset-0
+
+            bg-gradient-to-br
+            from-[#8f0009]/[0.10]
+            via-transparent
+            to-[#8f0009]/[0.06]
+
+            pointer-events-none
+
+            transition-opacity
+            duration-700
+
+            ${
+              active
+                ? 'opacity-100'
+                : 'opacity-0'
+            }
+          `}
+        />
+
+        {/* =========================================
+            AMBIENT HIGHLIGHT
+            ========================================= */}
 
         <div
           className="
@@ -278,6 +376,10 @@ function ProjectCard({ project, index, onSelectProject }) {
             duration-1000
           "
         />
+
+        {/* =========================================
+            LIGHT SWEEP
+            ========================================= */}
 
         <div
           className="
@@ -308,6 +410,10 @@ function ProjectCard({ project, index, onSelectProject }) {
             pointer-events-none
           "
         />
+
+        {/* =========================================
+            DESKTOP HOVER OVERLAY
+            ========================================= */}
 
         <div
           className="
@@ -369,6 +475,10 @@ function ProjectCard({ project, index, onSelectProject }) {
           </div>
         </div>
 
+        {/* =========================================
+            PROJECT NUMBER OVER IMAGE
+            ========================================= */}
+
         <div
           className="
             absolute
@@ -403,24 +513,32 @@ function ProjectCard({ project, index, onSelectProject }) {
         </div>
       </div>
 
-      {/* PROJECT INFO */}
+      {/* =========================================
+          PROJECT INFO
+          ========================================= */}
 
       <div
-        className="
+        className={`
           flex
           items-start
           justify-between
 
           pt-1
 
-          transition-transform
+          transition-all
           duration-700
 
           project-meta
-        "
+
+          ${
+            active
+              ? 'project-meta-active'
+              : ''
+          }
+        `}
         style={{
           transform:
-            `translateY(${parallax * -0.28}px)`,
+            `translateY(${parallax * -0.28}px) scale(${active ? 1.01 : 1})`,
         }}
       >
         <div
@@ -433,8 +551,10 @@ function ProjectCard({ project, index, onSelectProject }) {
             min-w-0
           "
         >
+          {/* PROJECT NUMBER */}
+
           <span
-            className="
+            className={`
               font-display
 
               text-2xl
@@ -445,20 +565,28 @@ function ProjectCard({ project, index, onSelectProject }) {
 
               leading-none
 
-              transition-transform
+              transition-all
               duration-500
 
               group-hover:-translate-y-1
 
               shrink-0
-            "
+
+              ${
+                active
+                  ? 'project-number-active'
+                  : ''
+              }
+            `}
           >
             {project.number}
           </span>
 
           <div className="min-w-0">
+            {/* TITLE */}
+
             <h3
-              className="
+              className={`
                 font-display
 
                 text-xl
@@ -472,7 +600,7 @@ function ProjectCard({ project, index, onSelectProject }) {
                 uppercase
 
                 transition-all
-                duration-500
+                duration-700
 
                 group-hover:text-crimson
                 group-hover:translate-x-1
@@ -480,13 +608,21 @@ function ProjectCard({ project, index, onSelectProject }) {
                 leading-none
 
                 break-words
-              "
+
+                ${
+                  active
+                    ? 'project-title-active'
+                    : ''
+                }
+              `}
             >
               {project.title}
             </h3>
 
+            {/* CATEGORY */}
+
             <p
-              className="
+              className={`
                 text-[11px]
 
                 font-extrabold
@@ -499,16 +635,26 @@ function ProjectCard({ project, index, onSelectProject }) {
 
                 mt-1
 
-                transition-colors
+                transition-all
                 duration-500
 
                 group-hover:text-slate-300
-              "
+
+                ${
+                  active
+                    ? 'project-category-active'
+                    : ''
+                }
+              `}
             >
               {project.category}
             </p>
           </div>
         </div>
+
+        {/* =========================================
+            VIEW BUTTON
+            ========================================= */}
 
         <button
           onClick={(e) => {
@@ -551,7 +697,6 @@ function ProjectCard({ project, index, onSelectProject }) {
   );
 }
 
-
 export default function ProjectGallery({
   onSelectProject,
 }) {
@@ -559,6 +704,10 @@ export default function ProjectGallery({
     useState(false);
 
   const headerRef = useRef(null);
+
+  /* =========================================
+     HEADER REVEAL
+     ========================================= */
 
   useEffect(() => {
     const element =
@@ -604,7 +753,9 @@ export default function ProjectGallery({
         project-gallery
       "
     >
-      {/* AMBIENT GLOW */}
+      {/* =========================================
+          AMBIENT GLOW
+          ========================================= */}
 
       <div
         className="
@@ -646,7 +797,9 @@ export default function ProjectGallery({
         "
       />
 
-      {/* MAIN CONTAINER */}
+      {/* =========================================
+          MAIN CONTAINER
+          ========================================= */}
 
       <div
         className="
@@ -660,7 +813,9 @@ export default function ProjectGallery({
           sm:px-12
         "
       >
-        {/* HEADER */}
+        {/* =========================================
+            HEADER
+            ========================================= */}
 
         <div
           ref={headerRef}
@@ -819,7 +974,9 @@ export default function ProjectGallery({
           </a>
         </div>
 
-        {/* PROJECT GRID */}
+        {/* =========================================
+            PROJECT GRID
+            ========================================= */}
 
         <div
           className="
@@ -848,7 +1005,9 @@ export default function ProjectGallery({
           )}
         </div>
 
-        {/* BOTTOM */}
+        {/* =========================================
+            BOTTOM
+            ========================================= */}
 
         <div
           className={`
@@ -912,9 +1071,9 @@ export default function ProjectGallery({
         </div>
       </div>
 
-      {/* =====================================================
-          MOBILE ONLY
-          ===================================================== */}
+      {/* =========================================
+          MOBILE / ACTIVE PROJECT STYLES
+          ========================================= */}
 
       <style>{`
 
@@ -943,7 +1102,7 @@ export default function ProjectGallery({
 
 
           /* =========================================
-             SLIGHTLY SMALLER MOBILE THUMBNAILS
+             MOBILE THUMBNAILS
              ========================================= */
 
           .project-image-frame {
@@ -952,18 +1111,190 @@ export default function ProjectGallery({
             margin-left: auto;
             margin-right: auto;
 
-            aspect-ratio: 16 / 10;
+            aspect-ratio: 16 / 12;
 
             border-radius: 0.85rem;
 
             box-shadow:
               0 14px 36px
               rgba(0,0,0,.27);
+
+            transition:
+              border-color .7s ease,
+              box-shadow .7s ease,
+              transform .7s
+              cubic-bezier(0.22,1,0.36,1);
           }
 
 
+          /* =========================================
+             ACTIVE PROJECT FRAME
+             ========================================= */
+
+          .project-image-frame-active {
+            border-color: rgba(143, 0, 9, .65);
+
+            box-shadow:
+              0 18px 55px
+              rgba(143,0,9,.16),
+              0 8px 30px
+              rgba(0,0,0,.35);
+          }
+
+
+          /* =========================================
+             MOBILE IMAGE
+             ========================================= */
+
           .project-card img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+
             opacity: .94;
+
+            transition:
+              opacity .7s ease,
+              transform 1.1s
+              cubic-bezier(0.22,1,0.36,1),
+              filter .7s ease;
+          }
+
+
+          /* =========================================
+             ACTIVE PROJECT IMAGE
+             ========================================= */
+
+          .project-card-image-active {
+            opacity: 1;
+
+            filter:
+              brightness(1.055)
+              saturate(1.04);
+          }
+
+
+          /* =========================================
+             ACTIVE PROJECT META
+             ========================================= */
+
+          .project-meta-active {
+            filter:
+              drop-shadow(
+                0 4px 14px
+                rgba(143,0,9,.08)
+              );
+          }
+
+
+          /* =========================================
+             ACTIVE PROJECT NUMBER
+             ========================================= */
+
+          .project-number-active {
+            transform:
+              translateY(-1px)
+              scale(1.06);
+
+            text-shadow:
+              0 0 18px
+              rgba(143,0,9,.45);
+          }
+
+
+          /* =========================================
+             ACTIVE PROJECT TITLE
+             RED GRADIENT + LIGHT EFFECT
+             ========================================= */
+
+          .project-title-active {
+            background:
+              linear-gradient(
+                100deg,
+                #ffffff 0%,
+                #ff6b72 24%,
+                #e50914 48%,
+                #ff3b44 68%,
+                #ffffff 100%
+              );
+
+            background-size: 240% auto;
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            color: transparent;
+
+            animation:
+              activeTitleLight
+              3.8s
+              ease-in-out
+              infinite;
+
+            transform:
+              translateX(2px)
+              scale(1.015);
+
+            filter:
+              drop-shadow(
+                0 0 7px
+                rgba(229,9,20,.25)
+              )
+              drop-shadow(
+                0 0 18px
+                rgba(229,9,20,.10)
+              );
+          }
+
+
+          /* =========================================
+             ACTIVE TITLE LIGHT MOVEMENT
+             ========================================= */
+
+          @keyframes activeTitleLight {
+
+            0% {
+              background-position:
+                100% center;
+            }
+
+            50% {
+              background-position:
+                0% center;
+            }
+
+            100% {
+              background-position:
+                100% center;
+            }
+
+          }
+
+
+          /* =========================================
+             ACTIVE PROJECT CATEGORY
+             ========================================= */
+
+          .project-category-active {
+            color: #d1d5db;
+          }
+
+
+          /* =========================================
+             ACTIVE PROJECT SUBTLE GLOW
+             ========================================= */
+
+          .project-card-active
+          .project-meta {
+            filter:
+              drop-shadow(
+                0 4px 14px
+                rgba(143,0,9,.08)
+              );
           }
 
 
@@ -1002,6 +1333,11 @@ export default function ProjectGallery({
             margin-right: auto;
 
             padding-top: .05rem;
+
+            transition:
+              transform .7s
+              cubic-bezier(0.22,1,0.36,1),
+              filter .7s ease;
           }
 
 
@@ -1142,6 +1478,23 @@ export default function ProjectGallery({
               rgba(0,0,0,.27);
           }
 
+
+          /* =========================================
+             KEEP ACTIVE STATE STRONGER THAN HOVER
+             ========================================= */
+
+          .project-card-active
+          .project-image-frame {
+            border-color:
+              rgba(143,0,9,.65);
+
+            box-shadow:
+              0 18px 55px
+              rgba(143,0,9,.16),
+              0 8px 30px
+              rgba(0,0,0,.35);
+          }
+
         }
 
 
@@ -1165,7 +1518,7 @@ export default function ProjectGallery({
           .project-image-frame {
             width: 90%;
 
-            aspect-ratio: 16 / 10;
+            aspect-ratio: 16 / 12;
           }
 
 
@@ -1210,6 +1563,13 @@ export default function ProjectGallery({
             line-height: 1.6;
           }
 
+
+          .project-title-active {
+            transform:
+              translateX(2px)
+              scale(1.01);
+          }
+
         }
 
 
@@ -1222,8 +1582,10 @@ export default function ProjectGallery({
           .project-card,
           .project-image-frame,
           .project-card img,
-          .project-meta {
+          .project-meta,
+          .project-title-active {
             transition: none !important;
+            animation: none !important;
           }
 
         }

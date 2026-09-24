@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
 import {
   X,
   ThumbsUp,
@@ -9,44 +14,966 @@ import {
   Wrench,
   ArrowLeft,
 } from 'lucide-react';
+
 import { profileData } from '../data/portfolioData';
+
+
+/* ============================================================
+   MOBILE GROUP ZOOM GALLERY
+   ============================================================ */
+
+function MobileZoomGallery({
+  images,
+  project,
+}) {
+  const galleryRef = useRef(null);
+
+  const pointers =
+    useRef(new Map());
+
+  const lastDistance =
+    useRef(null);
+
+  const lastCenter =
+    useRef(null);
+
+  const lastPointer =
+    useRef(null);
+
+  const [scale, setScale] =
+    useState(1);
+
+  const [position, setPosition] =
+    useState({
+      x: 0,
+      y: 0,
+    });
+
+
+  /* ==========================================================
+     CLAMP GROUP POSITION
+     ========================================================== */
+
+  const clampPosition = (
+    x,
+    y,
+    nextScale
+  ) => {
+    if (nextScale <= 1) {
+      return {
+        x: 0,
+        y: 0,
+      };
+    }
+
+    const gallery =
+      galleryRef.current;
+
+    if (!gallery) {
+      return {
+        x,
+        y,
+      };
+    }
+
+    const rect =
+      gallery.getBoundingClientRect();
+
+    const maxX =
+      Math.max(
+        0,
+        (rect.width *
+          nextScale -
+          rect.width) /
+          2
+      );
+
+    const maxY =
+      Math.max(
+        0,
+        (rect.height *
+          nextScale -
+          rect.height) /
+          2
+      );
+
+    return {
+      x: Math.max(
+        -maxX,
+        Math.min(maxX, x)
+      ),
+
+      y: Math.max(
+        -maxY,
+        Math.min(maxY, y)
+      ),
+    };
+  };
+
+
+  /* ==========================================================
+     TOUCH DISTANCE
+     ========================================================== */
+
+  const getDistance = (
+    first,
+    second
+  ) => {
+    const dx =
+      second.clientX -
+      first.clientX;
+
+    const dy =
+      second.clientY -
+      first.clientY;
+
+    return Math.sqrt(
+      dx * dx +
+      dy * dy
+    );
+  };
+
+
+  /* ==========================================================
+     TOUCH CENTER
+     ========================================================== */
+
+  const getCenter = (
+    first,
+    second
+  ) => ({
+    x:
+      (first.clientX +
+        second.clientX) /
+      2,
+
+    y:
+      (first.clientY +
+        second.clientY) /
+      2,
+  });
+
+
+  /* ==========================================================
+     POINTER DOWN
+     ========================================================== */
+
+  const handlePointerDown = (
+    event
+  ) => {
+    if (
+      event.pointerType !==
+      'touch'
+    ) {
+      return;
+    }
+
+    pointers.current.set(
+      event.pointerId,
+      {
+        clientX:
+          event.clientX,
+
+        clientY:
+          event.clientY,
+      }
+    );
+
+    try {
+      event.currentTarget.setPointerCapture(
+        event.pointerId
+      );
+    } catch {
+      // Ignore pointer capture errors
+    }
+
+
+    /* ========================================================
+       TWO FINGERS
+       ======================================================== */
+
+    if (
+      pointers.current.size ===
+      2
+    ) {
+      const values = [
+        ...pointers.current.values(),
+      ];
+
+      lastDistance.current =
+        getDistance(
+          values[0],
+          values[1]
+        );
+
+      lastCenter.current =
+        getCenter(
+          values[0],
+          values[1]
+        );
+
+      lastPointer.current =
+        null;
+
+      return;
+    }
+
+
+    /* ========================================================
+       ONE FINGER
+       ======================================================== */
+
+    if (
+      pointers.current.size ===
+      1
+    ) {
+      lastPointer.current = {
+        x: event.clientX,
+        y: event.clientY,
+      };
+    }
+  };
+
+
+  /* ==========================================================
+     POINTER MOVE
+     ========================================================== */
+
+  const handlePointerMove = (
+    event
+  ) => {
+    if (
+      event.pointerType !==
+      'touch'
+    ) {
+      return;
+    }
+
+    if (
+      !pointers.current.has(
+        event.pointerId
+      )
+    ) {
+      return;
+    }
+
+    pointers.current.set(
+      event.pointerId,
+      {
+        clientX:
+          event.clientX,
+
+        clientY:
+          event.clientY,
+      }
+    );
+
+
+    /* ========================================================
+       TWO FINGER GROUP ZOOM
+       ======================================================== */
+
+    if (
+      pointers.current.size ===
+      2
+    ) {
+      event.preventDefault();
+
+      const values = [
+        ...pointers.current.values(),
+      ];
+
+      const distance =
+        getDistance(
+          values[0],
+          values[1]
+        );
+
+      const center =
+        getCenter(
+          values[0],
+          values[1]
+        );
+
+
+      if (
+        lastDistance.current !==
+        null
+      ) {
+        const distanceDifference =
+          distance -
+          lastDistance.current;
+
+
+        setScale(
+          (currentScale) => {
+            const zoomAmount =
+              distanceDifference *
+              0.008;
+
+            const nextScale =
+              Math.max(
+                1,
+                Math.min(
+                  4,
+                  currentScale +
+                    zoomAmount
+                )
+              );
+
+
+            setPosition(
+              (currentPosition) => {
+                const centerMovementX =
+                  lastCenter.current
+                    ? center.x -
+                      lastCenter.current.x
+                    : 0;
+
+                const centerMovementY =
+                  lastCenter.current
+                    ? center.y -
+                      lastCenter.current.y
+                    : 0;
+
+                return clampPosition(
+                  currentPosition.x +
+                    centerMovementX,
+
+                  currentPosition.y +
+                    centerMovementY,
+
+                  nextScale
+                );
+              }
+            );
+
+
+            return nextScale;
+          }
+        );
+      }
+
+
+      lastDistance.current =
+        distance;
+
+      lastCenter.current =
+        center;
+
+      lastPointer.current =
+        null;
+
+      return;
+    }
+
+
+    /* ========================================================
+       ONE FINGER GROUP PAN
+       ======================================================== */
+
+    if (
+      pointers.current.size ===
+        1 &&
+      scale > 1
+    ) {
+      event.preventDefault();
+
+      if (
+        !lastPointer.current
+      ) {
+        lastPointer.current = {
+          x: event.clientX,
+          y: event.clientY,
+        };
+
+        return;
+      }
+
+
+      const deltaX =
+        event.clientX -
+        lastPointer.current.x;
+
+      const deltaY =
+        event.clientY -
+        lastPointer.current.y;
+
+
+      setPosition(
+        (currentPosition) =>
+          clampPosition(
+            currentPosition.x +
+              deltaX,
+
+            currentPosition.y +
+              deltaY,
+
+            scale
+          )
+      );
+
+
+      lastPointer.current = {
+        x: event.clientX,
+        y: event.clientY,
+      };
+    }
+  };
+
+
+  /* ==========================================================
+     POINTER UP
+     ========================================================== */
+
+  const handlePointerUp = (
+    event
+  ) => {
+    if (
+      event.pointerType !==
+      'touch'
+    ) {
+      return;
+    }
+
+    pointers.current.delete(
+      event.pointerId
+    );
+
+
+    if (
+      pointers.current.size <
+      2
+    ) {
+      lastDistance.current =
+        null;
+
+      lastCenter.current =
+        null;
+    }
+
+
+    if (
+      pointers.current.size ===
+      1
+    ) {
+      const remaining = [
+        ...pointers.current.values(),
+      ][0];
+
+      lastPointer.current = {
+        x: remaining.clientX,
+        y: remaining.clientY,
+      };
+    }
+
+
+    if (
+      pointers.current.size ===
+      0
+    ) {
+      lastPointer.current =
+        null;
+
+      setScale(
+        (currentScale) => {
+          if (
+            currentScale <
+            1.05
+          ) {
+            setPosition({
+              x: 0,
+              y: 0,
+            });
+
+            return 1;
+          }
+
+          return currentScale;
+        }
+      );
+    }
+  };
+
+
+  /* ==========================================================
+     POINTER CANCEL
+     ========================================================== */
+
+  const handlePointerCancel = (
+    event
+  ) => {
+    pointers.current.delete(
+      event.pointerId
+    );
+
+    lastDistance.current =
+      null;
+
+    lastCenter.current =
+      null;
+
+    lastPointer.current =
+      null;
+  };
+
+
+  /* ==========================================================
+     DOUBLE TAP / DOUBLE CLICK
+     ========================================================== */
+
+  const handleDoubleClick = () => {
+    setScale(
+      (currentScale) => {
+        const nextScale =
+          currentScale > 1
+            ? 1
+            : 2;
+
+        setPosition({
+          x: 0,
+          y: 0,
+        });
+
+        return nextScale;
+      }
+    );
+  };
+
+
+  /* ==========================================================
+     RESET
+     ========================================================== */
+
+  useEffect(() => {
+    setScale(1);
+
+    setPosition({
+      x: 0,
+      y: 0,
+    });
+
+    pointers.current.clear();
+
+    lastDistance.current =
+      null;
+
+    lastCenter.current =
+      null;
+
+    lastPointer.current =
+      null;
+  }, [project]);
+
+
+  return (
+    <div
+      className="
+        relative
+        w-full
+        max-w-full
+        min-w-0
+
+        overflow-hidden
+
+        select-none
+
+        rounded-[14px]
+
+        bg-transparent
+      "
+      style={{
+        touchAction:
+          scale > 1
+            ? 'none'
+            : 'pan-y',
+      }}
+      onPointerDown={
+        handlePointerDown
+      }
+      onPointerMove={
+        handlePointerMove
+      }
+      onPointerUp={
+        handlePointerUp
+      }
+      onPointerCancel={
+        handlePointerCancel
+      }
+      onDoubleClick={
+        handleDoubleClick
+      }
+    >
+
+      {/* ======================================================
+          ENTIRE PROJECT IMAGE STACK
+          SCALES AS ONE GROUP
+          ====================================================== */}
+
+      <div
+        ref={galleryRef}
+        className="
+          project-modal-mobile-group
+
+          w-full
+          max-w-full
+
+          origin-center
+        "
+        style={{
+          transform:
+            `translate3d(${position.x}px, ${position.y}px, 0) scale(${scale})`,
+
+          transformOrigin:
+            'center center',
+
+          willChange:
+            scale > 1
+              ? 'transform'
+              : 'auto',
+        }}
+      >
+
+        {images.map(
+          (
+            image,
+            index
+          ) => (
+
+            <div
+              key={`${image}-${index}`}
+              className={`
+                project-modal-gallery-item
+
+                relative
+
+                w-full
+                max-w-full
+                min-w-0
+
+                group
+
+                leading-[0]
+
+                ${
+                  index === 0
+                    ? 'project-modal-gallery-first'
+                    : ''
+                }
+
+                ${
+                  index ===
+                  images.length - 1
+                    ? 'project-modal-gallery-last'
+                    : ''
+                }
+
+                animate-modal-image
+              `}
+              style={{
+                animationDelay:
+                  `${120 + index * 70}ms`,
+              }}
+            >
+
+              <img
+                src={image}
+                alt={`${project.title} - ${index + 1}`}
+                loading={
+                  index === 0
+                    ? 'eager'
+                    : 'lazy'
+                }
+                decoding="async"
+                draggable="false"
+                className="
+                  project-modal-gallery-image
+
+                  block
+
+                  w-full
+                  max-w-full
+                  min-w-0
+
+                  h-auto
+
+                  object-contain
+
+                  select-none
+
+                  [-webkit-user-drag:none]
+                "
+                onError={(event) => {
+                  if (
+                    event.currentTarget.src.endsWith(
+                      '.jpg'
+                    )
+                  ) {
+                    event.currentTarget.src =
+                      project.coverImage.replace(
+                        '.jpg',
+                        '.png'
+                      );
+                  } else {
+                    event.currentTarget.style.display =
+                      'none';
+                  }
+                }}
+              />
+
+            </div>
+
+          )
+        )}
+
+      </div>
+
+
+      {/* ======================================================
+          ZOOM INDICATOR
+          ====================================================== */}
+
+      {scale > 1 && (
+        <div
+          className="
+            absolute
+
+            top-3
+            right-3
+
+            z-30
+
+            px-2.5
+            py-1
+
+            rounded-full
+
+            bg-black/70
+
+            border
+            border-white/10
+
+            text-[9px]
+
+            font-bold
+
+            tracking-widest
+
+            text-white/80
+
+            backdrop-blur-md
+
+            pointer-events-none
+          "
+        >
+          {Math.round(
+            scale * 100
+          )}
+          %
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+
+/* ============================================================
+   DESKTOP IMAGE GALLERY
+   ============================================================ */
+
+function DesktopGallery({
+  images,
+  project,
+}) {
+  return (
+    <div
+      className="
+        project-modal-gallery
+
+        w-full
+        max-w-full
+        min-w-0
+
+        overflow-hidden
+
+        rounded-[14px]
+
+        bg-transparent
+      "
+    >
+
+      {images.map(
+        (
+          image,
+          index
+        ) => (
+
+          <div
+            key={`${image}-${index}`}
+            className={`
+              project-modal-gallery-item
+
+              relative
+
+              w-full
+              max-w-full
+              min-w-0
+
+              group
+
+              leading-[0]
+
+              ${
+                index === 0
+                  ? 'project-modal-gallery-first'
+                  : ''
+              }
+
+              ${
+                index ===
+                images.length - 1
+                  ? 'project-modal-gallery-last'
+                  : ''
+              }
+
+              animate-modal-image
+            `}
+            style={{
+              animationDelay:
+                `${120 + index * 70}ms`,
+            }}
+          >
+
+            <img
+              src={image}
+              alt={`${project.title} - ${index + 1}`}
+              loading={
+                index === 0
+                  ? 'eager'
+                  : 'lazy'
+              }
+              decoding="async"
+              draggable="false"
+              className="
+                project-modal-gallery-image
+
+                block
+
+                w-full
+                max-w-full
+                min-w-0
+
+                h-auto
+
+                object-contain
+
+                select-none
+
+                [-webkit-user-drag:none]
+              "
+              onError={(event) => {
+                if (
+                  event.currentTarget.src.endsWith(
+                    '.jpg'
+                  )
+                ) {
+                  event.currentTarget.src =
+                    project.coverImage.replace(
+                      '.jpg',
+                      '.png'
+                    );
+                } else {
+                  event.currentTarget.style.display =
+                    'none';
+                }
+              }}
+            />
+
+          </div>
+
+        )
+      )}
+
+    </div>
+  );
+}
+
+
+/* ============================================================
+   PROJECT MODAL
+   ============================================================ */
 
 export default function ProjectModal({
   project,
   onClose,
   darkMode,
 }) {
-  const [appreciated, setAppreciated] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [appreciated, setAppreciated] =
+    useState(false);
 
-  /* =========================================================
+  const [visible, setVisible] =
+    useState(false);
+
+
+  /* ==========================================================
      OPEN / CLOSE
-     ========================================================= */
+     ========================================================== */
 
   useEffect(() => {
     if (!project) return;
 
-    const previousOverflow = document.body.style.overflow;
+    const previousOverflow =
+      document.body.style.overflow;
 
-    document.body.style.overflow = 'hidden';
+    const previousOverflowX =
+      document.body.style.overflowX;
+
+
+    document.body.style.overflow =
+      'hidden';
+
+    document.body.style.overflowX =
+      'hidden';
+
 
     requestAnimationFrame(() => {
       setVisible(true);
     });
 
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
+
+    const handleKeyDown = (
+      event
+    ) => {
+      if (
+        event.key ===
+        'Escape'
+      ) {
         handleClose();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+
+    window.addEventListener(
+      'keydown',
+      handleKeyDown
+    );
+
 
     return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow =
+        previousOverflow;
+
+      document.body.style.overflowX =
+        previousOverflowX;
+
+      window.removeEventListener(
+        'keydown',
+        handleKeyDown
+      );
     };
   }, [project]);
+
 
   const handleClose = () => {
     setVisible(false);
@@ -56,18 +983,25 @@ export default function ProjectModal({
     }, 350);
   };
 
-  if (!project) return null;
+
+  if (!project) {
+    return null;
+  }
+
 
   const appreciationsCount =
     (project.appreciations || 0) +
     (appreciated ? 1 : 0);
 
+
   const projectImages =
-    project.images && project.images.length > 0
+    project.images &&
+    project.images.length > 0
       ? project.images
       : project.coverImage
         ? [project.coverImage]
         : [];
+
 
   return (
     <div
@@ -80,12 +1014,22 @@ export default function ProjectModal({
         items-center
         justify-center
 
+        w-[100vw]
+        max-w-[100vw]
+        min-w-0
+
         p-0
         sm:p-4
         md:p-6
 
+        overflow-x-hidden
+        overflow-y-hidden
+
+        overscroll-x-none
+
         transition-all
         duration-500
+
         ease-[cubic-bezier(.22,1,.36,1)]
 
         ${
@@ -125,8 +1069,12 @@ export default function ProjectModal({
           relative
           z-10
 
-          w-full
-          max-w-6xl
+          w-[100vw]
+          max-w-[100vw]
+          min-w-0
+
+          sm:w-full
+          sm:max-w-6xl
 
           h-[100dvh]
           max-h-[100dvh]
@@ -135,6 +1083,7 @@ export default function ProjectModal({
           sm:max-h-[94vh]
 
           overflow-hidden
+          overflow-x-hidden
 
           bg-[#080808]
           text-white
@@ -154,8 +1103,8 @@ export default function ProjectModal({
 
           ${
             visible
-              ? 'opacity-100 translate-y-0 scale-100'
-              : 'opacity-0 translate-y-8 scale-[0.97]'
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 translate-y-8'
           }
         `}
       >
@@ -195,6 +1144,7 @@ export default function ProjectModal({
             onClick={handleClose}
             className="
               group
+
               flex
               items-center
               gap-2
@@ -236,6 +1186,7 @@ export default function ProjectModal({
           <span
             className="
               absolute
+
               left-1/2
               -translate-x-1/2
 
@@ -311,13 +1262,18 @@ export default function ProjectModal({
           className="
             relative
 
+            w-full
+            max-w-full
+            min-w-0
+
             h-[calc(100dvh-58px)]
             sm:h-[calc(94vh-58px)]
 
             overflow-y-auto
             overflow-x-hidden
 
-            overscroll-contain
+            overscroll-y-contain
+
             touch-pan-y
 
             scrollbar-thin
@@ -325,12 +1281,16 @@ export default function ProjectModal({
             scrollbar-thumb-[#292929]
 
             [-webkit-overflow-scrolling:touch]
+
+            [scrollbar-gutter:stable]
           "
         >
 
           <div
             className="
               w-full
+              max-w-full
+              min-w-0
 
               px-3
               py-5
@@ -420,6 +1380,9 @@ export default function ProjectModal({
                   uppercase
 
                   leading-[0.95]
+
+                  max-w-full
+                  break-words
                 "
               >
                 {project.title}
@@ -472,139 +1435,50 @@ export default function ProjectModal({
 
             {projectImages.length > 0 ? (
 
-              <div
-                className="
-                  project-modal-gallery
+              <>
 
-                  overflow-hidden
+                {/* DESKTOP / WEB */}
 
-                  rounded-lg
-                  sm:rounded-xl
+                <div
+                  className="
+                    hidden
+                    sm:block
+                  "
+                >
 
-                  border
-                  border-[#292929]
+                  <DesktopGallery
+                    images={
+                      projectImages
+                    }
+                    project={
+                      project
+                    }
+                  />
 
-                  bg-[#0b0b0b]
-
-                  shadow-[0_20px_70px_rgba(0,0,0,.25)]
-                "
-              >
-
-                {projectImages.map((image, index) => (
-
-                  <div
-                    key={`${image}-${index}`}
-                    className="
-                      project-modal-gallery-item
-
-                      relative
-                      overflow-hidden
-
-                      bg-[#101010]
-
-                      group
-
-                      animate-modal-image
-                    "
-                    style={{
-                      animationDelay:
-                        `${120 + index * 70}ms`,
-                    }}
-                  >
-
-                    <img
-                      src={image}
-                      alt={`${project.title} - ${index + 1}`}
-                      loading={
-                        index === 0
-                          ? 'eager'
-                          : 'lazy'
-                      }
-                      decoding="async"
-                      draggable="false"
-                      className="
-                        project-modal-gallery-image
-
-                        block
-
-                        w-full
-                        max-w-full
-
-                        h-auto
-
-                        object-contain
-
-                        transition-transform
-                        duration-[1200ms]
-                        ease-[cubic-bezier(.22,1,.36,1)]
-
-                        group-hover:scale-[1.012]
-                      "
-                      onError={(e) => {
-
-                        if (
-                          e.currentTarget.src.endsWith(
-                            '.jpg'
-                          )
-                        ) {
-
-                          e.currentTarget.src =
-                            project.coverImage.replace(
-                              '.jpg',
-                              '.png'
-                            );
-
-                        } else {
-
-                          e.currentTarget.style.display =
-                            'none';
-
-                        }
-
-                      }}
-                    />
+                </div>
 
 
-                    <div
-                      className="
-                        absolute
-                        inset-0
+                {/* MOBILE */}
 
-                        pointer-events-none
+                <div
+                  className="
+                    block
+                    sm:hidden
+                  "
+                >
 
-                        bg-gradient-to-b
-                        from-white/[0.025]
-                        via-transparent
-                        to-black/[0.12]
+                  <MobileZoomGallery
+                    images={
+                      projectImages
+                    }
+                    project={
+                      project
+                    }
+                  />
 
-                        opacity-70
-                      "
-                    />
+                </div>
 
-
-                    <div
-                      className="
-                        absolute
-                        inset-0
-
-                        pointer-events-none
-
-                        ring-1
-                        ring-inset
-                        ring-white/[0.03]
-
-                        group-hover:ring-crimson/10
-
-                        transition-all
-                        duration-700
-                      "
-                    />
-
-                  </div>
-
-                ))}
-
-              </div>
+              </>
 
             ) : (
 
@@ -667,6 +1541,8 @@ export default function ProjectModal({
                 lg:gap-7
 
                 animate-modal-content
+
+                min-w-0
               "
             >
 
@@ -675,12 +1551,14 @@ export default function ProjectModal({
                   lg:col-span-8
 
                   space-y-10
+
+                  min-w-0
                 "
               >
 
                 {/* OVERVIEW */}
 
-                <div>
+                <div className="min-w-0">
 
                   <h3
                     className="
@@ -710,6 +1588,8 @@ export default function ProjectModal({
                       text-slate-400
 
                       max-w-3xl
+
+                      break-words
                     "
                   >
                     {project.description ||
@@ -725,7 +1605,7 @@ export default function ProjectModal({
                 {project.process &&
                   project.process.length > 0 && (
 
-                    <div>
+                    <div className="min-w-0">
 
                       <h4
                         className="
@@ -749,11 +1629,15 @@ export default function ProjectModal({
                       <div
                         className="
                           space-y-5
+                          min-w-0
                         "
                       >
 
                         {project.process.map(
-                          (step, index) => (
+                          (
+                            step,
+                            index
+                          ) => (
 
                             <div
                               key={index}
@@ -761,6 +1645,8 @@ export default function ProjectModal({
                                 flex
                                 items-start
                                 gap-3
+
+                                min-w-0
                               "
                             >
 
@@ -809,9 +1695,12 @@ export default function ProjectModal({
                                     text-white
 
                                     leading-relaxed
+
+                                    break-words
                                   "
                                 >
-                                  {typeof step === 'string'
+                                  {typeof step ===
+                                  'string'
                                     ? step
                                     : step.title ||
                                       step.name ||
@@ -819,7 +1708,8 @@ export default function ProjectModal({
                                 </p>
 
 
-                                {typeof step !== 'string' &&
+                                {typeof step !==
+                                  'string' &&
                                   step.description && (
 
                                     <p
@@ -831,9 +1721,13 @@ export default function ProjectModal({
                                         leading-relaxed
 
                                         text-slate-500
+
+                                        break-words
                                       "
                                     >
-                                      {step.description}
+                                      {
+                                        step.description
+                                      }
                                     </p>
 
                                   )}
@@ -857,7 +1751,7 @@ export default function ProjectModal({
                 {project.tools &&
                   project.tools.length > 0 && (
 
-                    <div>
+                    <div className="min-w-0">
 
                       <h4
                         className="
@@ -899,11 +1793,16 @@ export default function ProjectModal({
                           flex-wrap
 
                           gap-2
+
+                          min-w-0
                         "
                       >
 
                         {project.tools.map(
-                          (tool, index) => (
+                          (
+                            tool,
+                            index
+                          ) => (
 
                             <span
                               key={index}
@@ -955,6 +1854,8 @@ export default function ProjectModal({
               <div
                 className="
                   lg:col-span-4
+
+                  min-w-0
                 "
               >
 
@@ -970,6 +1871,8 @@ export default function ProjectModal({
                     p-5
 
                     shadow-[0_20px_60px_rgba(0,0,0,.18)]
+
+                    min-w-0
                   "
                 >
 
@@ -1033,18 +1936,24 @@ export default function ProjectModal({
                 mt-7
 
                 animate-modal-content
+
+                min-w-0
               "
               style={{
-                animationDelay: '150ms',
+                animationDelay:
+                  '150ms',
               }}
             >
 
               <button
                 type="button"
                 onClick={() =>
-                  setAppreciated(!appreciated)
+                  setAppreciated(
+                    !appreciated
+                  )
                 }
                 className={`
+
                   py-3
                   px-4
 
@@ -1068,6 +1977,8 @@ export default function ProjectModal({
                   transition-all
                   duration-300
 
+                  min-w-0
+
                   ${
                     appreciated
                       ? `
@@ -1085,13 +1996,17 @@ export default function ProjectModal({
                         hover:bg-[#151515]
                       `
                   }
+
                 `}
               >
 
                 <ThumbsUp
                   className={`
+
                     w-3.5
                     h-3.5
+
+                    shrink-0
 
                     transition-transform
                     duration-300
@@ -1101,12 +2016,15 @@ export default function ProjectModal({
                         ? 'fill-current scale-110'
                         : ''
                     }
+
                   `}
                 />
 
-                {appreciated
-                  ? `APPRECIATED (${appreciationsCount})`
-                  : `APPRECIATE PROJECT (${appreciationsCount})`}
+                <span className="truncate">
+                  {appreciated
+                    ? `APPRECIATED (${appreciationsCount})`
+                    : `APPRECIATE PROJECT (${appreciationsCount})`}
+                </span>
 
               </button>
 
@@ -1144,6 +2062,8 @@ export default function ProjectModal({
                   justify-center
                   gap-2
 
+                  min-w-0
+
                   hover:bg-[#ff252d]
 
                   hover:-translate-y-0.5
@@ -1155,7 +2075,7 @@ export default function ProjectModal({
                 "
               >
 
-                <span>
+                <span className="truncate">
                   VIEW PROJECT ON BEHANCE
                 </span>
 
@@ -1163,6 +2083,8 @@ export default function ProjectModal({
                   className="
                     w-3.5
                     h-3.5
+
+                    shrink-0
                   "
                 />
 
@@ -1219,7 +2141,7 @@ export default function ProjectModal({
       <style>{`
 
         /* =====================================================
-           ANIMATIONS — PRESERVED
+           ANIMATIONS
            ===================================================== */
 
         @keyframes modal-header-in {
@@ -1243,12 +2165,12 @@ export default function ProjectModal({
 
           from {
             opacity: 0;
-            transform: translateY(18px) scale(.985);
+            transform: translateY(18px);
           }
 
           to {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
           }
 
         }
@@ -1303,17 +2225,27 @@ export default function ProjectModal({
 
 
         /* =====================================================
-           GALLERY
+           GALLERY — BASE
            ===================================================== */
 
         .project-modal-gallery {
 
+          display: block;
+
           width: 100%;
           max-width: 100%;
+          min-width: 0;
 
-          overflow: hidden;
+          margin: 0;
+          padding: 0;
 
-          contain: layout paint;
+          background: transparent;
+
+          border: 0;
+
+          box-shadow: none;
+
+          line-height: 0;
 
         }
 
@@ -1326,11 +2258,72 @@ export default function ProjectModal({
 
           width: 100%;
           max-width: 100%;
+          min-width: 0;
+
+          margin: 0;
+          padding: 0;
+
+          overflow: hidden;
+
+          background: transparent;
+
+          border: 0;
+
+          box-shadow: none;
+
+          line-height: 0;
+
+        }
+
+
+        /* =====================================================
+           FIRST IMAGE — TOP CORNERS
+           ===================================================== */
+
+        .project-modal-gallery-first {
+
+          border-top-left-radius: 14px;
+          border-top-right-radius: 14px;
 
           overflow: hidden;
 
         }
 
+
+        /* =====================================================
+           LAST IMAGE — BOTTOM CORNERS
+           ===================================================== */
+
+        .project-modal-gallery-last {
+
+          border-bottom-left-radius: 14px;
+          border-bottom-right-radius: 14px;
+
+          overflow: hidden;
+
+        }
+
+
+        /* =====================================================
+           BETWEEN IMAGES — COMPLETELY SEAMLESS
+           ===================================================== */
+
+        .project-modal-gallery-item
+        + .project-modal-gallery-item {
+
+          margin-top: 0;
+          padding-top: 0;
+
+          border-top: 0;
+
+          border-radius: 0;
+
+        }
+
+
+        /* =====================================================
+           IMAGE
+           ===================================================== */
 
         .project-modal-gallery-image {
 
@@ -1338,6 +2331,7 @@ export default function ProjectModal({
 
           width: 100%;
           max-width: 100%;
+          min-width: 0;
 
           height: auto;
 
@@ -1346,37 +2340,121 @@ export default function ProjectModal({
 
           object-fit: contain;
 
+          object-position: center top;
+
           vertical-align: top;
 
           line-height: 0;
 
           user-select: none;
 
+          -webkit-user-select: none;
+
           -webkit-user-drag: none;
+
+          border: 0;
+
+          border-radius: 0;
+
+          box-shadow: none;
+
+          outline: none;
+
+          background: transparent;
 
         }
 
 
         /* =====================================================
-           MOBILE — SIZE ONLY
-           
-           IMPORTANT:
-           Animation is NOT disabled.
-           Transform is NOT disabled.
-           Desktop behavior is preserved.
+           DESKTOP
+           ===================================================== */
+
+        @media (min-width: 641px) {
+
+          .project-modal-gallery {
+
+            overflow: hidden;
+
+            border-radius: 14px;
+
+          }
+
+
+          .project-modal-gallery-item {
+
+            overflow: hidden;
+
+          }
+
+
+          .project-modal-gallery-image {
+
+            cursor: default;
+
+          }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
            ===================================================== */
 
         @media (max-width: 640px) {
 
+          html,
+          body {
+
+            width: 100%;
+            max-width: 100%;
+
+            overflow-x: hidden !important;
+
+            overscroll-behavior-x: none !important;
+
+          }
+
+
           .project-modal-gallery {
+
+            display: block;
 
             width: 100%;
             max-width: 100%;
             min-width: 0;
 
+            margin: 0;
+            padding: 0;
+
             overflow: hidden;
 
-            contain: layout paint;
+            contain: none;
+
+            background: transparent;
+
+            border: 0;
+
+            box-shadow: none;
+
+            border-radius: 14px;
+
+          }
+
+
+          .project-modal-mobile-group {
+
+            display: block;
+
+            width: 100%;
+
+            max-width: 100%;
+
+            min-width: 0;
+
+            margin: 0;
+            padding: 0;
+
+            background: transparent;
 
           }
 
@@ -1396,26 +2474,50 @@ export default function ProjectModal({
 
             overflow: hidden;
 
+            background: transparent;
+
+            border: 0;
+
+            box-shadow: none;
+
+            line-height: 0;
+
           }
 
-
-          /*
-            Small controlled leading between assets.
-          */
 
           .project-modal-gallery-item
           + .project-modal-gallery-item {
 
-            margin-top: 1px;
+            margin-top: 0;
+
+            padding-top: 0;
+
+            border-top: 0;
+
+            border-radius: 0;
 
           }
 
 
-          /*
-            MOBILE IMAGE SIZE ONLY.
-            
-            Natural aspect ratio is preserved.
-          */
+          .project-modal-gallery-first {
+
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+
+            overflow: hidden;
+
+          }
+
+
+          .project-modal-gallery-last {
+
+            border-bottom-left-radius: 14px;
+            border-bottom-right-radius: 14px;
+
+            overflow: hidden;
+
+          }
+
 
           .project-modal-gallery-image {
 
@@ -1423,10 +2525,9 @@ export default function ProjectModal({
 
             width: 100%;
             max-width: 100%;
+            min-width: 0;
 
             height: auto;
-
-            min-width: 0;
 
             margin: 0;
             padding: 0;
@@ -1436,6 +2537,22 @@ export default function ProjectModal({
             object-position: center top;
 
             vertical-align: top;
+
+            user-select: none;
+
+            -webkit-user-select: none;
+
+            -webkit-user-drag: none;
+
+            border: 0;
+
+            border-radius: 0;
+
+            box-shadow: none;
+
+            outline: none;
+
+            background: transparent;
 
           }
 
@@ -1513,6 +2630,7 @@ function InfoRow({
   return (
     <div
       className={`
+
         flex
         items-start
         gap-3
@@ -1527,6 +2645,7 @@ function InfoRow({
               ? 'pt-4'
               : 'pb-4 border-b border-[#292929]'
         }
+
       `}
     >
 
