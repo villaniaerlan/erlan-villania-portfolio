@@ -232,6 +232,7 @@ export default function Hero() {
 
       <div
         className="
+          erl-banner-toggle
           max-w-7xl
           mx-auto
           px-6
@@ -602,6 +603,53 @@ export default function Hero() {
            ===================================================== */
 
         <>
+
+          {/* =================================================
+              MOBILE PROJECT THUMBNAIL MARQUEE
+              Desktop is intentionally untouched.
+              ================================================= */}
+
+          <div
+            className="erl-mobile-project-marquee"
+            aria-label="Selected project previews"
+          >
+            <div className="erl-mobile-project-track">
+              {[0, 1].map((copyIndex) => (
+                <div
+                  className="erl-mobile-project-set"
+                  key={copyIndex}
+                  aria-hidden={copyIndex === 1}
+                >
+                  {profileData.selectedProjects
+                    .slice(0, 5)
+                    .map((project) => (
+                      <div
+                        className="erl-mobile-project-thumb"
+                        key={`${copyIndex}-${project.id}`}
+                      >
+                        <img
+                          src={project.coverImage}
+                          alt={copyIndex === 0 ? project.title : ''}
+                          loading="eager"
+                          draggable="false"
+                          onError={(e) => {
+                            if (
+                              e.currentTarget.src.endsWith('.jpg')
+                            ) {
+                              e.currentTarget.src =
+                                project.coverImage.replace(
+                                  '.jpg',
+                                  '.png'
+                                );
+                            }
+                          }}
+                        />
+                      </div>
+                    ))}
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* =================================================
               GIANT PORTFOLIO
@@ -1115,6 +1163,29 @@ export default function Hero() {
                     />
 
                   </div>
+
+
+                  {/* MOBILE GET TO KNOW ME BUTTON */}
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setUseSolidBanner(!useSolidBanner)
+                    }
+                    className="erl-mobile-banner-toggle"
+                  >
+                    {useSolidBanner ? (
+                      <>
+                        <Play className="w-3.5 h-3.5 text-crimson" />
+                        <span>A SHORT VIDEO INTRODUCTION</span>
+                      </>
+                    ) : (
+                      <>
+                        <ImageIcon className="w-3.5 h-3.5 text-crimson" />
+                        <span>GET TO KNOW ME</span>
+                      </>
+                    )}
+                  </button>
 
 
                   {/* FLOATING BADGE */}
@@ -1986,6 +2057,12 @@ export default function Hero() {
            ANIMATIONS
            ====================================================== */
 
+        .erl-mobile-project-marquee,
+        .erl-mobile-banner-toggle {
+          display: none;
+        }
+
+
         @keyframes erl-enter {
 
           from {
@@ -2367,6 +2444,187 @@ export default function Hero() {
            ====================================================== */
 
         @media (max-width: 640px) {
+
+          /*
+            ====================================================
+            MOBILE DESIGN CONTROLS
+            Based on the supplied 393px mobile reference.
+            Desktop styles are untouched.
+            ====================================================
+          */
+
+          .erl-hero {
+            --mobile-thumb-width: 112px;
+            --mobile-thumb-height: 88px;
+            --mobile-thumb-gap: 10px;
+          }
+
+
+          .erl-banner-toggle {
+            display: none;
+          }
+
+
+          /* ====================================================
+             MOBILE PROJECT THUMBNAIL MARQUEE
+             ==================================================== */
+
+          .erl-mobile-project-marquee {
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            padding: 0 0 11px;
+            margin: -1px 0 1px;
+            position: relative;
+            z-index: 30;
+            isolation: isolate;
+          }
+
+          /* Soft black vignette on both edges of the mobile marquee.
+             Mobile-only: desktop layout remains untouched. */
+          .erl-mobile-project-marquee::before,
+          .erl-mobile-project-marquee::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 12px;
+            width: 54px;
+            z-index: 3;
+            pointer-events: none;
+          }
+
+          .erl-mobile-project-marquee::before {
+            left: 0;
+            background: linear-gradient(
+              90deg,
+              #0A0A0A 0%,
+              rgba(10,10,10,.88) 18%,
+              rgba(10,10,10,.52) 45%,
+              rgba(10,10,10,.16) 72%,
+              rgba(10,10,10,0) 100%
+            );
+          }
+
+          .erl-mobile-project-marquee::after {
+            right: 0;
+            background: linear-gradient(
+              270deg,
+              #0A0A0A 0%,
+              rgba(10,10,10,.88) 18%,
+              rgba(10,10,10,.52) 45%,
+              rgba(10,10,10,.16) 72%,
+              rgba(10,10,10,0) 100%
+            );
+          }
+
+          .erl-mobile-project-track {
+            display: flex;
+            width: max-content;
+            animation: erl-mobile-project-marquee 18s linear infinite;
+            will-change: transform;
+          }
+
+          .erl-mobile-project-set {
+            display: flex;
+            flex: 0 0 auto;
+            gap: var(--mobile-thumb-gap);
+            padding-right: var(--mobile-thumb-gap);
+          }
+
+          .erl-mobile-project-thumb {
+            flex: 0 0 var(--mobile-thumb-width);
+            width: var(--mobile-thumb-width);
+            height: var(--mobile-thumb-height);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 6px;
+            background: #111;
+            box-shadow: 0 12px 28px rgba(0,0,0,.28);
+          }
+
+          .erl-mobile-project-thumb img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: .82;
+            transform: scale(1.02);
+          }
+
+          .erl-mobile-banner-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: absolute;
+            right: 0;
+            bottom: 18px;
+            z-index: 35;
+            min-height: 36px;
+            padding: 0 14px;
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 999px;
+            background: rgba(18,18,18,.92);
+            color: #e5e7eb;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 8px 26px rgba(0,0,0,.42);
+          }
+
+          .erl-mobile-banner-toggle::before {
+            content: '';
+            position: absolute;
+            inset: 50% auto auto 50%;
+            width: 116px;
+            height: 116px;
+            transform: translate(-50%, -50%);
+            border-radius: 999px;
+            background: radial-gradient(
+              circle,
+              rgba(197,5,15,.55) 0%,
+              rgba(197,5,15,.24) 38%,
+              rgba(197,5,15,0) 72%
+            );
+            filter: blur(16px);
+            opacity: .65;
+            z-index: -1;
+            pointer-events: none;
+            animation: erl-mobile-button-glow 2.8s ease-in-out infinite;
+          }
+
+          .erl-mobile-banner-toggle > * {
+            position: relative;
+            z-index: 1;
+          }
+
+          .erl-mobile-banner-toggle:active {
+            transform: scale(.97);
+          }
+
+          @keyframes erl-mobile-project-marquee {
+            from {
+              transform: translate3d(0, 0, 0);
+            }
+            to {
+              transform: translate3d(-50%, 0, 0);
+            }
+          }
+
+          @keyframes erl-mobile-button-glow {
+            0%,
+            100% {
+              opacity: .48;
+              transform: translate(-50%, -50%) scale(.9);
+            }
+            50% {
+              opacity: .82;
+              transform: translate(-50%, -50%) scale(1.08);
+            }
+          }
 
           /*
             ====================================================
@@ -2865,6 +3123,8 @@ export default function Hero() {
         @media (prefers-reduced-motion: reduce) {
 
           .erl-light-sweep,
+          .erl-mobile-project-track,
+          .erl-mobile-banner-toggle::before,
           .erl-portfolio-text,
           .erl-hero-item,
           .erl-portrait-wrap,
