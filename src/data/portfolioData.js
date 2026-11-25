@@ -198,7 +198,14 @@ export const profileData = {
         "/projects/casino/casino 05.png",
         "/projects/casino/casino 06.png",
         "/projects/casino/casino 07.png",
-        "/projects/casino/casino 08.png"
+        "/projects/casino/casino 08.png",
+        "/projects/casino/front.png",
+        "/projects/casino/dafabet.png",
+        "/projects/casino/10cric.png",
+        "/projects/casino/iplwin.png",
+        "/projects/casino/juan365.png",
+        "/projects/casino/playtime.png",
+        "/projects/casino/bingoplus.png"
       ],
 
       client: "Digital Marketing",
